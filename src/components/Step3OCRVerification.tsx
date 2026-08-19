@@ -115,10 +115,10 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
   };
 
   return (
-    <div className="space-y-8 animate-fade-in text-slate-900">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in text-slate-900">
       
       {/* Top Banner */}
-      <div className="rounded-3xl bg-white p-6 sm:p-7 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="rounded-3xl bg-white p-5 sm:p-7 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 border border-amber-200">
@@ -135,7 +135,7 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
 
         <button
           onClick={handleVerifyAll}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-300 transition-all cursor-pointer select-none shrink-0"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-300 transition-all cursor-pointer select-none shrink-0 w-full sm:w-auto"
         >
           <CheckCircle2 className="w-4 h-4 text-emerald-600" />
           <span>Confirm All Extracted Fields</span>
@@ -156,17 +156,17 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
               className="rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden"
             >
               {/* Header */}
-              <div className="px-5 py-3.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-7 h-7 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center">
-                    <FileText className="w-4 h-4" />
+              <div className="px-4 sm:px-5 py-3.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center shrink-0">
+                    <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
                   </div>
-                  <h3 className="font-bold text-xs sm:text-sm text-slate-900">
+                  <h3 className="font-bold text-xs sm:text-sm text-slate-900 truncate">
                     {doc.title}
                   </h3>
                 </div>
 
-                <span className="text-[11px] font-mono text-slate-500 font-medium">
+                <span className="text-[10px] sm:text-[11px] font-mono text-slate-500 font-medium truncate">
                   {doc.fileName}
                 </span>
               </div>
@@ -182,7 +182,7 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
                   return (
                     <div
                       key={fieldName}
-                      className="p-4 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                      className="p-3.5 sm:p-4 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
                     >
                       {/* Label & Confidence */}
                       <div className="sm:w-52 shrink-0">
@@ -226,7 +226,7 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
                             </button>
                           </div>
                         ) : (
-                          <div className="flex items-center justify-between gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200 transition-colors">
+                          <div className="flex items-center justify-between gap-2 bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-200 transition-colors">
                             <span className="font-mono font-bold text-slate-900 truncate">
                               {field.value || '—'}
                             </span>
@@ -268,11 +268,11 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
         })}
       </div>
 
-      {/* Footer Navigation */}
-      <div className="pt-4 flex items-center justify-between border-t border-slate-200">
+      {/* Footer Navigation (Responsive Full-Width Stack on Mobile) */}
+      <div className="pt-4 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-slate-200">
         <button
           onClick={onPrevStep}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer w-full sm:w-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Proofs</span>
@@ -280,7 +280,7 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
 
         <button
           onClick={onNextStep}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer select-none"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer select-none w-full sm:w-auto"
         >
           <span>Calculate Harmony Matrix</span>
           <ArrowRight className="w-4 h-4 text-amber-300" />

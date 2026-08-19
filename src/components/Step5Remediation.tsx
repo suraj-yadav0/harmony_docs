@@ -38,10 +38,10 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
   };
 
   return (
-    <div className="space-y-8 animate-fade-in text-slate-900">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in text-slate-900">
       
       {/* Top Banner */}
-      <div className="rounded-3xl bg-white p-6 sm:p-7 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="rounded-3xl bg-white p-5 sm:p-7 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
@@ -58,7 +58,7 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
 
         <button
           onClick={onExportReport}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0c2340] text-white hover:bg-[#16375f] text-xs font-bold transition-all cursor-pointer select-none shrink-0 shadow-md"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#0c2340] text-white hover:bg-[#16375f] text-xs font-bold transition-all cursor-pointer select-none shrink-0 shadow-md w-full sm:w-auto"
         >
           <Download className="w-4 h-4 text-amber-300" />
           <span>Export Official PDF Report</span>
@@ -68,7 +68,7 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
       {/* Steps List */}
       <div className="space-y-4">
         {remediationPlan.length === 0 || overallStatus === 'GREEN' ? (
-          <div className="rounded-3xl bg-emerald-50/80 border border-emerald-200 p-8 text-center space-y-3">
+          <div className="rounded-3xl bg-emerald-50/80 border border-emerald-200 p-6 sm:p-8 text-center space-y-3">
             <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-xs">
               <CheckCircle2 className="w-6 h-6" />
             </div>
@@ -97,18 +97,18 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
             return (
               <div
                 key={step.stepNumber}
-                className={`rounded-3xl border transition-all p-6 sm:p-7 space-y-4 ${
+                className={`rounded-3xl border transition-all p-4 sm:p-7 space-y-4 ${
                   isCompleted
                     ? 'bg-emerald-50/40 border-emerald-200 shadow-2xs'
                     : 'bg-white border-slate-200 shadow-sm'
                 }`}
               >
                 {/* Step Header */}
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex items-start gap-4">
+                <div className="flex items-start justify-between gap-3 sm:gap-4">
+                  <div className="flex items-start gap-3 sm:gap-4">
                     <button
                       onClick={() => toggleStep(step.stepNumber)}
-                      className={`w-8 h-8 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer shrink-0 ${
+                      className={`w-7 h-7 sm:w-8 sm:h-8 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer shrink-0 mt-0.5 ${
                         isCompleted
                           ? 'bg-emerald-600 text-white shadow-xs'
                           : 'bg-[#0c2340] text-white shadow-xs hover:bg-[#16375f]'
@@ -119,18 +119,18 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
                     </button>
 
                     <div>
-                      <div className="flex items-center gap-2 mb-1.5">
-                        <span className="text-[10px] font-mono font-bold uppercase text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                      <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 mb-1.5">
+                        <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
                           Target Record: {step.docTitle}
                         </span>
                         {step.prerequisiteStep !== undefined && (
-                          <span className="text-[10px] font-mono font-bold uppercase text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300">
+                          <span className="text-[9px] sm:text-[10px] font-mono font-bold uppercase text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300">
                             Prerequisite: Complete Step {step.prerequisiteStep}
                           </span>
                         )}
                       </div>
                       <h4
-                        className={`text-base font-extrabold transition-colors ${
+                        className={`text-sm sm:text-base font-extrabold transition-colors ${
                           isCompleted ? 'line-through text-slate-400' : 'text-slate-900'
                         }`}
                       >
@@ -156,10 +156,10 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
 
                 {/* Required Proofs & Steps */}
                 {step.stepsSummary && step.stepsSummary.length > 0 && (
-                  <div className="pl-12 text-xs">
-                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/90 text-slate-700 space-y-1.5">
+                  <div className="sm:pl-12 text-xs">
+                    <div className="p-3 sm:p-3.5 rounded-xl bg-slate-50 border border-slate-200/90 text-slate-700 space-y-1.5">
                       <span className="font-bold text-slate-900 block">Required Proofs & Instructions:</span>
-                      <ul className="list-disc pl-4 space-y-1 text-slate-600">
+                      <ul className="list-disc pl-4 space-y-1 text-slate-600 text-[11px] sm:text-xs">
                         {step.stepsSummary.map((item: string, idx: number) => (
                           <li key={idx}>{item}</li>
                         ))}
@@ -169,7 +169,7 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
                 )}
 
                 {/* Portal Action */}
-                <div className="pl-12 pt-2 flex items-center justify-between text-xs border-t border-slate-100">
+                <div className="sm:pl-12 pt-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs border-t border-slate-100">
                   <span className="text-slate-500 font-mono text-[11px]">
                     Authority: {step.authority}
                   </span>
@@ -177,7 +177,7 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
                     href={step.officialUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs transition-colors shadow-2xs"
+                    className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs transition-colors shadow-2xs w-full sm:w-auto"
                   >
                     <span>Open Official Portal</span>
                     <ExternalLink className="w-3.5 h-3.5" />
@@ -192,12 +192,12 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
 
       {/* Alignment Simulation */}
       {remediationPlan.length > 0 && overallStatus !== 'GREEN' && (
-        <div className="rounded-3xl bg-slate-900 text-white p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-md">
+        <div className="rounded-3xl bg-slate-900 text-white p-5 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-md">
           <div>
             <div className="flex items-center gap-2 mb-1">
               <Sparkles className="w-4 h-4 text-amber-400" />
               <span className="font-bold text-sm sm:text-base text-white">
-                Simulate Successful Document Alignment
+                Simulate Successful Alignment
               </span>
             </div>
             <p className="text-xs text-slate-300 leading-relaxed max-w-xl">
@@ -207,18 +207,18 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
 
           <button
             onClick={onSimulateResolvedCorrection}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-md transition-all cursor-pointer select-none shrink-0"
+            className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-md transition-all cursor-pointer select-none shrink-0 w-full sm:w-auto"
           >
             <span>Simulate 100% Harmony</span>
           </button>
         </div>
       )}
 
-      {/* Footer Navigation */}
-      <div className="pt-4 flex items-center justify-between border-t border-slate-200">
+      {/* Footer Navigation (Responsive Full-Width Stack on Mobile) */}
+      <div className="pt-4 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-slate-200">
         <button
           onClick={onPrevStep}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer w-full sm:w-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Diagnostics</span>
@@ -226,7 +226,7 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
 
         <button
           onClick={onExportReport}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer select-none"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer select-none w-full sm:w-auto"
         >
           <Download className="w-4 h-4 text-amber-300" />
           <span>Export Official Summary</span>

@@ -38,16 +38,16 @@ export const Step1Workflow: React.FC<Step1WorkflowProps> = ({
   onNextStep,
 }) => {
   return (
-    <div className="space-y-8 animate-fade-in text-slate-900">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in text-slate-900">
       
       {/* Intro Section */}
-      <div className="rounded-3xl bg-white p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+      <div className="rounded-3xl bg-white p-5 sm:p-8 border border-slate-200 shadow-sm space-y-4">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-mono font-bold">
           <Shield className="w-3.5 h-3.5 text-emerald-600" />
           <span>STATUTORY PRECEDENCE & IDENTITY RESOLUTION SPEC</span>
         </div>
 
-        <h1 className="text-2xl sm:text-3xl font-black text-[#0c2340] tracking-tight">
+        <h1 className="text-xl sm:text-3xl font-black text-[#0c2340] tracking-tight">
           Select Your Target Government Verification Purpose
         </h1>
 
@@ -59,7 +59,7 @@ export const Step1Workflow: React.FC<Step1WorkflowProps> = ({
       {/* Purpose Selection Cards */}
       <div className="space-y-4">
         <div className="flex items-baseline justify-between border-b border-slate-200 pb-2">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-500">
+          <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-slate-500">
             Available Statutory Workflows
           </h2>
         </div>
@@ -73,16 +73,16 @@ export const Step1Workflow: React.FC<Step1WorkflowProps> = ({
               <div
                 key={wf.id}
                 onClick={() => onSelectWorkflow(wf.id)}
-                className={`p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
+                className={`p-4 sm:p-5 rounded-2xl border transition-all cursor-pointer flex flex-col justify-between select-none ${
                   isSelected
-                    ? 'border-[#0c2340] bg-white ring-2 ring-[#0c2340]/20 shadow-md scale-[1.01]'
+                    ? 'border-[#0c2340] bg-white ring-2 ring-[#0c2340]/20 shadow-md scale-[1.005]'
                     : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-xs'
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <div
-                      className={`w-9 h-9 rounded-xl flex items-center justify-center transition-colors ${
+                      className={`w-8 h-8 sm:w-9 sm:h-9 rounded-xl flex items-center justify-center transition-colors ${
                         isSelected
                           ? 'bg-[#0c2340] text-white shadow-xs'
                           : 'bg-slate-100 text-slate-700'
@@ -125,10 +125,10 @@ export const Step1Workflow: React.FC<Step1WorkflowProps> = ({
       </div>
 
       {/* Simulated Acceptance Scenarios */}
-      <div className="rounded-3xl bg-white p-6 sm:p-8 border border-slate-200 shadow-sm space-y-4">
+      <div className="rounded-3xl bg-white p-5 sm:p-8 border border-slate-200 shadow-sm space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <h3 className="text-sm font-bold text-[#0c2340]">
+            <h3 className="text-xs sm:text-sm font-bold text-[#0c2340]">
               Simulated Acceptance Scenarios (AT-01 to AT-06)
             </h3>
             <p className="text-xs text-slate-500 mt-0.5">
@@ -146,7 +146,7 @@ export const Step1Workflow: React.FC<Step1WorkflowProps> = ({
               <button
                 key={scenario.id}
                 onClick={() => onSelectScenario(scenario)}
-                className="text-left p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-all flex flex-col justify-between group cursor-pointer"
+                className="text-left p-3 sm:p-3.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 transition-all flex flex-col justify-between group cursor-pointer"
               >
                 <div>
                   <div className="flex items-center justify-between gap-1 mb-1">
@@ -181,14 +181,14 @@ export const Step1Workflow: React.FC<Step1WorkflowProps> = ({
       </div>
 
       {/* Footer Primary CTA */}
-      <div className="pt-4 flex items-center justify-between border-t border-slate-200">
-        <div className="text-xs text-slate-600">
+      <div className="pt-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-slate-200">
+        <div className="text-xs text-slate-600 truncate">
           Selected: <strong className="text-slate-900 font-bold">{WORKFLOWS.find((w) => w.id === selectedWorkflowId)?.title}</strong>
         </div>
 
         <button
           onClick={onNextStep}
-          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer select-none"
+          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer select-none w-full sm:w-auto"
         >
           <span>Continue to Document Proofs</span>
           <ArrowRight className="w-4 h-4 text-amber-300" />

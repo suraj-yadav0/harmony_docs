@@ -226,10 +226,10 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
   const currentSelectedDoc = documents.find((d) => d.type === selectedDocType) || documents[0];
 
   return (
-    <div className="space-y-8 animate-fade-in text-slate-900">
+    <div className="space-y-6 sm:space-y-8 animate-fade-in text-slate-900">
       
       {/* Top Banner */}
-      <div className="rounded-3xl bg-white p-6 sm:p-7 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="rounded-3xl bg-white p-5 sm:p-7 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
@@ -249,7 +249,7 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
 
         <button
           onClick={handleLoadAllSampleDocs}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-800 border border-slate-200 transition-all cursor-pointer select-none shrink-0"
+          className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-800 border border-slate-200 transition-all cursor-pointer select-none shrink-0 w-full sm:w-auto"
         >
           <Sparkles className="w-3.5 h-3.5 text-amber-600" />
           <span>Autofill All Proofs</span>
@@ -257,39 +257,39 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
       </div>
 
       {/* Interactive Document Physical Cards Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
         {documents.map((doc) => renderDocCard(doc))}
       </div>
 
       {/* Selected Document Action Bar */}
       {currentSelectedDoc && (
-        <div className="rounded-2xl bg-white p-5 border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
+        <div className="rounded-2xl bg-white p-4 sm:p-5 border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="min-w-0">
             <span className="text-[10px] font-mono uppercase font-bold text-slate-400 tracking-wider">
               Active Selection:
             </span>
-            <h4 className="text-sm font-bold text-[#0c2340] mt-0.5">
+            <h4 className="text-sm font-bold text-[#0c2340] mt-0.5 truncate">
               {DOC_METADATA[currentSelectedDoc.type]?.label || currentSelectedDoc.title}
             </h4>
-            <p className="text-xs text-slate-600 mt-0.5 font-mono">
+            <p className="text-xs text-slate-600 mt-0.5 font-mono truncate">
               {currentSelectedDoc.isUploaded
                 ? `Attached: ${currentSelectedDoc.fileName} (${currentSelectedDoc.fileSize})`
                 : 'No document file currently uploaded for this proof.'}
             </p>
           </div>
 
-          <div className="flex items-center gap-2 shrink-0">
+          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2 shrink-0">
             {currentSelectedDoc.isUploaded ? (
               <button
                 onClick={() => handleRemoveDoc(currentSelectedDoc.type)}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-colors cursor-pointer"
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-colors cursor-pointer w-full sm:w-auto"
               >
                 <Trash2 className="w-3.5 h-3.5" />
                 <span>Remove Proof</span>
               </button>
             ) : (
               <>
-                <label className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#0c2340] hover:bg-[#16375f] text-white cursor-pointer transition-colors shadow-xs">
+                <label className="inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#0c2340] hover:bg-[#16375f] text-white cursor-pointer transition-colors shadow-xs flex-1 sm:flex-none">
                   <Upload className="w-3.5 h-3.5" />
                   <span>Upload File</span>
                   <input
@@ -309,7 +309,7 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
                     setActiveCameraDocType(currentSelectedDoc.type);
                     setCameraModalOpen(true);
                   }}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-800 hover:bg-slate-50 border border-slate-300 transition-colors cursor-pointer"
+                  className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-800 hover:bg-slate-50 border border-slate-300 transition-colors cursor-pointer flex-1 sm:flex-none"
                 >
                   <Camera className="w-3.5 h-3.5 text-slate-600" />
                   <span>Camera</span>
@@ -317,7 +317,7 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
 
                 <button
                   onClick={() => handleLoadSampleForDoc(currentSelectedDoc.type)}
-                  className="text-xs text-slate-600 hover:text-slate-950 underline px-1.5 cursor-pointer font-medium"
+                  className="text-xs text-slate-600 hover:text-slate-950 underline px-2 py-1 cursor-pointer font-medium"
                 >
                   Sample
                 </button>
@@ -327,11 +327,11 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
         </div>
       )}
 
-      {/* Footer Actions */}
-      <div className="pt-4 flex items-center justify-between border-t border-slate-200">
+      {/* Footer Navigation (Responsive Full-Width Stack on Mobile) */}
+      <div className="pt-4 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-slate-200">
         <button
           onClick={onPrevStep}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer w-full sm:w-auto"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Intent</span>
@@ -340,7 +340,7 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
         <button
           onClick={onNextStep}
           disabled={uploadedCount === 0}
-          className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm shadow-md transition-all select-none ${
+          className={`inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm shadow-md transition-all select-none w-full sm:w-auto ${
             uploadedCount > 0
               ? 'bg-[#0c2340] hover:bg-[#16375f] text-white cursor-pointer'
               : 'bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-200'

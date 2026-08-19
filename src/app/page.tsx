@@ -29,7 +29,7 @@ export default function Home() {
   const [maxStepReached, setMaxStepReached] = useState<number>(1);
   const [selectedWorkflowId, setSelectedWorkflowId] = useState<WorkflowId>('pan_aadhaar_link');
   const [documents, setDocuments] = useState<DocumentRecord[]>(
-    ACCEPTANCE_SCENARIOS[1].documents // Load AT-02 by default
+    ACCEPTANCE_SCENARIOS[1].documents // Default load AT-02
   );
   const [activeScenarioId, setActiveScenarioId] = useState<string>('AT-02');
   
@@ -113,17 +113,20 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#fafaf9] text-stone-900 selection:bg-stone-900 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#09090b] text-[#f4f4f5] relative selection:bg-white selection:text-stone-950">
       
-      {/* Toast Notification */}
+      {/* Ambient background grid pattern */}
+      <div className="fixed inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
+
+      {/* Ephemeral purge toast */}
       {purgeToastVisible && (
-        <div className="fixed bottom-6 right-6 z-50 bg-stone-900 text-white px-3.5 py-2.5 rounded-lg shadow-lg flex items-center gap-2 text-xs font-medium border border-stone-800">
+        <div className="fixed bottom-6 right-6 z-50 bg-stone-900/90 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 text-xs font-semibold border border-white/10 backdrop-blur-md animate-fade-in">
           <Check className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Session reset. Memory cleared.</span>
+          <span>Session memory cleared.</span>
         </div>
       )}
 
-      {/* Header */}
+      {/* Floating Island Header */}
       <Header
         currentWorkflowId={selectedWorkflowId}
         onSelectWorkflow={handleSelectWorkflow}
@@ -134,15 +137,15 @@ export default function Home() {
         activeScenarioId={activeScenarioId}
       />
 
-      {/* Stepper Navigation */}
+      {/* Hardware Tab Stepper */}
       <WizardProgress
         currentStep={currentStep}
         onStepClick={handleStepClick}
         maxStepReached={maxStepReached}
       />
 
-      {/* Main Content Area */}
-      <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 sm:py-12">
+      {/* Main Container */}
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 pb-20 relative z-10">
         
         {currentStep === 1 && (
           <Step1Workflow
@@ -195,16 +198,16 @@ export default function Home() {
 
       </main>
 
-      {/* Clean Footer */}
-      <footer className="border-t border-stone-200 bg-white py-6 text-xs text-stone-600">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+      {/* Sleek Minimalist Footer */}
+      <footer className="border-t border-white/8 bg-[#09090b]/80 backdrop-blur-md py-6 text-xs text-stone-400 relative z-10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-semibold text-stone-900">Document Harmony</span>
-            <span>—</span>
-            <span>Indian Official Record Consistency Diagnostics</span>
+            <span className="font-bold text-white tracking-tight">Document Harmony</span>
+            <span className="text-stone-600">•</span>
+            <span>Indian Official Record Consistency Engine</span>
           </div>
-          <div className="text-[11px] text-stone-600 font-mono">
-            Client-side in-memory • Zero data retention
+          <div className="text-[11px] text-stone-400 font-mono">
+            In-Memory Client Diagnostic • 0-Day Retention
           </div>
         </div>
       </footer>

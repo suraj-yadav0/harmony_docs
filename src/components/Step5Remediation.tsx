@@ -6,6 +6,10 @@ import {
   ArrowLeft,
   Download,
   Check,
+  CheckCircle2,
+  Clock,
+  IndianRupee,
+  Sparkles,
 } from 'lucide-react';
 import { DocumentRecord, HarmonyAnalysisResult, WorkflowConfig } from '@/types';
 
@@ -34,48 +38,60 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
   };
 
   return (
-    <div className="space-y-8 max-w-4xl">
+    <div className="space-y-8 animate-fade-in">
       
-      {/* Intro */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 border-b border-stone-200 pb-3">
-        <div>
-          <h2 className="text-xl font-semibold text-stone-900 tracking-tight">
-            Remediation Roadmap
-          </h2>
-          <p className="text-xs text-stone-600 mt-0.5">
-            Follow this prerequisite order to update records with the respective government authorities.
-          </p>
-        </div>
+      {/* Top Banner */}
+      <div className="rounded-2xl p-1 bg-white/[0.04] border border-white/8">
+        <div className="rounded-xl bg-[#101014] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                Official Correction Sequence
+              </span>
+            </div>
+            <h2 className="text-lg sm:text-xl font-bold text-white mt-1.5 tracking-tight">
+              5. Remediation Roadmap
+            </h2>
+            <p className="text-xs text-stone-400 mt-0.5">
+              Execute steps in prerequisite order to eliminate rejected applications.
+            </p>
+          </div>
 
-        <button
-          onClick={onExportReport}
-          className="inline-flex items-center gap-1.5 text-xs text-stone-800 hover:text-stone-950 font-medium underline underline-offset-2 cursor-pointer shrink-0"
-        >
-          <Download className="w-3.5 h-3.5" />
-          <span>Export Printable Summary</span>
-        </button>
+          <button
+            onClick={onExportReport}
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-stone-950 hover:bg-stone-200 text-xs font-bold transition-all cursor-pointer select-none shrink-0 shadow-lg"
+          >
+            <Download className="w-4 h-4" />
+            <span>Export PDF Report</span>
+          </button>
+        </div>
       </div>
 
       {/* Steps List */}
       <div className="space-y-4">
         {remediationPlan.length === 0 || overallStatus === 'GREEN' ? (
-          <div className="border border-stone-200 rounded-lg p-6 bg-white text-center space-y-3">
-            <h3 className="font-semibold text-sm text-stone-900">
-              No Document Corrections Required
-            </h3>
-            <p className="text-xs text-stone-600 max-w-md mx-auto">
-              Your identity records are character-for-character consistent across all uploaded proofs. You can proceed directly with your target application.
-            </p>
-            <div className="pt-2">
-              <a
-                href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/bl-link-aadhaar"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-stone-900 hover:bg-stone-800 text-white text-xs font-medium transition-colors"
-              >
-                <span>Open Income Tax Portal</span>
-                <ExternalLink className="w-3.5 h-3.5" />
-              </a>
+          <div className="rounded-2xl p-1 bg-emerald-500/10 border border-emerald-500/20">
+            <div className="rounded-xl bg-[#0f1412] p-8 text-center space-y-3">
+              <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                <CheckCircle2 className="w-6 h-6" />
+              </div>
+              <h3 className="font-bold text-base text-white">
+                No Record Corrections Required
+              </h3>
+              <p className="text-xs text-stone-300 max-w-md mx-auto leading-relaxed">
+                All records match character-for-character across uploaded proofs. You can proceed with your target linking.
+              </p>
+              <div className="pt-2">
+                <a
+                  href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/bl-link-aadhaar"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-stone-950 text-xs font-bold transition-colors"
+                >
+                  <span>Open Official Income Tax Portal</span>
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </div>
             </div>
           </div>
         ) : (
@@ -85,77 +101,93 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
             return (
               <div
                 key={step.stepNumber}
-                className={`border rounded-lg p-4 sm:p-5 bg-white space-y-3 transition-colors ${
-                  isCompleted ? 'border-emerald-200 bg-emerald-50/20' : 'border-stone-200'
+                className={`rounded-2xl p-1 transition-all ${
+                  isCompleted
+                    ? 'bg-emerald-500/10 border border-emerald-500/20 opacity-80'
+                    : 'bg-white/[0.04] border border-white/8'
                 }`}
               >
-                {/* Step Header */}
-                <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-start gap-3">
-                    <button
-                      onClick={() => toggleStep(step.stepNumber)}
-                      className={`w-6 h-6 rounded border flex items-center justify-center font-mono text-xs font-semibold cursor-pointer shrink-0 transition-colors ${
-                        isCompleted
-                          ? 'border-emerald-700 bg-emerald-700 text-white'
-                          : 'border-stone-300 bg-stone-50 text-stone-700 hover:border-stone-400'
-                      }`}
-                    >
-                      {isCompleted ? <Check className="w-3.5 h-3.5 stroke-[3]" /> : step.stepNumber}
-                    </button>
+                <div className="rounded-xl bg-[#111115] p-5 space-y-3">
+                  
+                  {/* Step Header */}
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start gap-3">
+                      <button
+                        onClick={() => toggleStep(step.stepNumber)}
+                        className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer shrink-0 ${
+                          isCompleted
+                            ? 'bg-emerald-500 text-stone-950 shadow-xs'
+                            : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
+                        }`}
+                        title={isCompleted ? 'Mark step as pending' : 'Mark step as done'}
+                      >
+                        {isCompleted ? <Check className="w-4 h-4 stroke-[3]" /> : step.stepNumber}
+                      </button>
 
-                    <div>
-                      <div className="flex items-center gap-2">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span className="text-[10px] font-mono font-bold uppercase text-stone-400 bg-white/[0.04] px-2 py-0.5 rounded border border-white/6">
+                            Target: {step.docTitle}
+                          </span>
+                          {step.prerequisiteStep !== undefined && (
+                            <span className="text-[10px] font-mono font-bold uppercase text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/30">
+                              Prerequisite: Step {step.prerequisiteStep}
+                            </span>
+                          )}
+                        </div>
                         <h4
-                          className={`text-sm font-semibold ${
-                            isCompleted ? 'line-through text-stone-500' : 'text-stone-900'
+                          className={`text-sm font-bold transition-colors ${
+                            isCompleted ? 'line-through text-stone-500' : 'text-white'
                           }`}
                         >
                           {step.actionTitle}
                         </h4>
-                        {step.prerequisiteStep !== undefined && (
-                          <span className="text-[10px] font-mono text-amber-800 bg-amber-50 px-1.5 py-0.2 rounded border border-amber-200">
-                            Prerequisite: Step {step.prerequisiteStep}
-                          </span>
-                        )}
+                        <p className="text-xs text-stone-300 mt-1 leading-relaxed">
+                          {step.reason}
+                        </p>
                       </div>
-                      <p className="text-xs text-stone-600 mt-1 leading-relaxed">
-                        {step.reason}
-                      </p>
+                    </div>
+
+                    <div className="text-right text-xs font-mono text-stone-400 shrink-0 hidden sm:flex flex-col gap-1">
+                      <div className="flex items-center gap-1">
+                        <IndianRupee className="w-3 h-3 text-stone-500" />
+                        <span>{step.verifiedFee}</span>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Clock className="w-3 h-3 text-stone-500" />
+                        <span>{step.verifiedTimeline}</span>
+                      </div>
                     </div>
                   </div>
 
-                  <div className="text-right text-[11px] font-mono text-stone-500 shrink-0 hidden sm:block">
-                    <div>Fee: {step.verifiedFee}</div>
-                    <div>Timeline: {step.verifiedTimeline}</div>
-                  </div>
-                </div>
+                  {/* Required Proofs */}
+                  {step.stepsSummary && step.stepsSummary.length > 0 && (
+                    <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5 text-xs text-stone-300">
+                      <span className="font-semibold text-white block mb-1">Required Action Proofs:</span>
+                      <ul className="list-disc pl-4 space-y-0.5 text-stone-400">
+                        {step.stepsSummary.map((item: string, idx: number) => (
+                          <li key={idx}>{item}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
 
-                {/* Steps Details / Proofs */}
-                {step.stepsSummary && step.stepsSummary.length > 0 && (
-                  <div className="pl-9 text-xs text-stone-600">
-                    <span className="font-medium text-stone-800 block mb-1">Required Proofs & Instructions:</span>
-                    <ul className="list-disc pl-4 space-y-0.5 text-stone-600">
-                      {step.stepsSummary.map((item: string, idx: number) => (
-                        <li key={idx}>{item}</li>
-                      ))}
-                    </ul>
+                  {/* Portal Action */}
+                  <div className="pt-2 flex items-center justify-between text-xs border-t border-white/6">
+                    <span className="text-stone-500 font-mono text-[11px]">
+                      Authority: {step.authority}
+                    </span>
+                    <a
+                      href={step.officialUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-white font-semibold text-xs transition-colors"
+                    >
+                      <span>Open Official Portal</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
                   </div>
-                )}
 
-                {/* Action Link */}
-                <div className="pl-9 pt-2 flex items-center justify-between text-xs border-t border-stone-100">
-                  <span className="text-stone-500 text-[11px]">
-                    Authority: {step.authority}
-                  </span>
-                  <a
-                    href={step.officialUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-xs text-stone-900 font-medium hover:underline"
-                  >
-                    <span>Open Official Portal</span>
-                    <ExternalLink className="w-3 h-3" />
-                  </a>
                 </div>
               </div>
             );
@@ -163,43 +195,50 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
         )}
       </div>
 
-      {/* Simulate Alignment Trigger */}
+      {/* Alignment Simulation */}
       {remediationPlan.length > 0 && overallStatus !== 'GREEN' && (
-        <div className="border border-stone-200 rounded-lg p-4 bg-stone-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-          <div>
-            <span className="font-semibold text-stone-900">
-              Simulate Post-Correction State
-            </span>
-            <p className="text-stone-600 mt-0.5">
-              Preview the dashboard with all non-anchor fields aligned to the canonical value.
-            </p>
-          </div>
+        <div className="rounded-2xl p-1 bg-gradient-to-b from-indigo-500/20 to-transparent border border-indigo-500/30">
+          <div className="rounded-xl bg-[#0f1018] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+            <div>
+              <div className="flex items-center gap-2 mb-0.5">
+                <Sparkles className="w-4 h-4 text-indigo-400" />
+                <span className="font-bold text-white text-sm">
+                  Simulate Document Alignment
+                </span>
+              </div>
+              <p className="text-stone-300 leading-relaxed">
+                Preview how recalculation aligns all attributes to 100/100 harmony.
+              </p>
+            </div>
 
-          <button
-            onClick={onSimulateResolvedCorrection}
-            className="px-3 py-1.5 rounded-md border border-stone-300 bg-white hover:bg-stone-100 text-stone-800 font-medium text-xs cursor-pointer shrink-0 transition-colors"
-          >
-            Simulate Alignment
-          </button>
+            <button
+              onClick={onSimulateResolvedCorrection}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-stone-950 font-bold text-xs hover:bg-stone-200 transition-all cursor-pointer select-none shrink-0"
+            >
+              <span>Simulate 100% Harmony</span>
+            </button>
+          </div>
         </div>
       )}
 
       {/* Footer Navigation */}
-      <div className="pt-4 flex items-center justify-between border-t border-stone-200">
+      <div className="pt-4 flex items-center justify-between border-t border-white/8">
         <button
           onClick={onPrevStep}
-          className="inline-flex items-center gap-1.5 text-xs font-medium text-stone-600 hover:text-stone-900 cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-medium text-stone-400 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/8 transition-all cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
-          <span>Back</span>
+          <span>Back to Diagnostics</span>
         </button>
 
         <button
           onClick={onExportReport}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-md bg-stone-900 hover:bg-stone-800 text-white text-xs font-medium transition-colors cursor-pointer"
+          className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-white hover:bg-stone-200 text-stone-950 font-bold text-xs sm:text-sm shadow-xl transition-all cursor-pointer select-none active:scale-[0.98]"
         >
-          <Download className="w-3.5 h-3.5" />
-          <span>Export Summary</span>
+          <span>Export Summary Report</span>
+          <div className="w-7 h-7 rounded-full bg-stone-950 text-white flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
+            <Download className="w-3.5 h-3.5" />
+          </div>
         </button>
       </div>
 

@@ -1,6 +1,13 @@
 'use client';
 
 import React from 'react';
+import {
+  Compass,
+  FileCheck,
+  ScanEye,
+  Activity,
+  GitMerge,
+} from 'lucide-react';
 
 interface WizardProgressProps {
   currentStep: number; // 1 to 5
@@ -9,11 +16,11 @@ interface WizardProgressProps {
 }
 
 const STEPS = [
-  { step: 1, label: '1. Purpose' },
-  { step: 2, label: '2. Documents' },
-  { step: 3, label: '3. OCR Review' },
-  { step: 4, label: '4. Diagnostics' },
-  { step: 5, label: '5. Remediation' },
+  { step: 1, label: 'Intent', icon: Compass },
+  { step: 2, label: 'Proofs', icon: FileCheck },
+  { step: 3, label: 'OCR Review', icon: ScanEye },
+  { step: 4, label: 'Diagnostics', icon: Activity },
+  { step: 5, label: 'Roadmap', icon: GitMerge },
 ];
 
 export const WizardProgress: React.FC<WizardProgressProps> = ({
@@ -22,27 +29,47 @@ export const WizardProgress: React.FC<WizardProgressProps> = ({
   maxStepReached,
 }) => {
   return (
-    <nav aria-label="Verification wizard steps" className="w-full border-b border-stone-200 bg-white">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between sm:justify-start sm:gap-6 overflow-x-auto py-1">
+    <nav aria-label="Verification progress" className="w-full px-4 sm:px-6 my-6">
+      <div className="max-w-5xl mx-auto p-1 rounded-2xl bg-white/[0.03] border border-white/8 backdrop-blur-md">
+        <div className="grid grid-cols-5 gap-1">
           {STEPS.map((item) => {
             const isCurrent = item.step === currentStep;
+            const isCompleted = item.step < currentStep;
             const isClickable = item.step <= maxStepReached;
+            const Icon = item.icon;
 
             return (
               <button
                 key={item.step}
                 disabled={!isClickable}
                 onClick={() => isClickable && onStepClick(item.step)}
-                className={`py-3 text-xs font-medium border-b-2 transition-colors whitespace-nowrap focus:outline-none ${
+                className={`group py-2.5 px-2 sm:px-3 rounded-xl transition-all flex items-center justify-center gap-2 select-none ${
                   isCurrent
-                    ? 'border-stone-900 text-stone-900 font-semibold'
+                    ? 'bg-white/10 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] border border-white/15 font-semibold'
+                    : isCompleted
+                    ? 'text-stone-300 hover:bg-white/[0.05] cursor-pointer'
                     : isClickable
-                    ? 'border-transparent text-stone-600 hover:text-stone-800 cursor-pointer'
-                    : 'border-transparent text-stone-400 cursor-not-allowed'
+                    ? 'text-stone-400 hover:text-stone-200 hover:bg-white/[0.04] cursor-pointer'
+                    : 'text-stone-600 opacity-40 cursor-not-allowed'
                 }`}
               >
-                {item.label}
+                <div
+                  className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-mono font-bold transition-colors ${
+                    isCurrent
+                      ? 'bg-white text-stone-950 shadow-xs'
+                      : isCompleted
+                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                      : 'bg-white/[0.06] text-stone-400 group-hover:text-white'
+                  }`}
+                >
+                  {item.step}
+                </div>
+
+                <span className="hidden md:inline-block text-xs tracking-tight truncate">
+                  {item.label}
+                </span>
+                
+                <Icon className={`w-3.5 h-3.5 md:hidden ${isCurrent ? 'text-white' : 'text-stone-500'}`} />
               </button>
             );
           })}

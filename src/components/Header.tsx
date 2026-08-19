@@ -3,7 +3,7 @@
 import React from 'react';
 import { AcceptanceScenario, WorkflowId } from '@/types';
 import { ACCEPTANCE_SCENARIOS } from '@/data/scenarios';
-import { ChevronDown, Shield, Trash2 } from 'lucide-react';
+import { ChevronDown, ShieldCheck, RefreshCw } from 'lucide-react';
 
 interface HeaderProps {
   currentWorkflowId: WorkflowId;
@@ -23,74 +23,78 @@ export const Header: React.FC<HeaderProps> = ({
   activeScenarioId,
 }) => {
   return (
-    <header className="w-full border-b border-stone-200 bg-white/90 backdrop-blur-sm sticky top-0 z-40">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16 gap-4">
+    <header className="sticky top-3 z-40 w-full px-4 sm:px-6 pointer-events-none">
+      <div className="max-w-5xl mx-auto rounded-2xl bg-[#121215]/90 border border-white/10 backdrop-blur-xl shadow-2xl shadow-black/60 px-4 sm:px-5 py-2.5 flex items-center justify-between gap-4 pointer-events-auto transition-all">
+        
+        {/* Brand Monogram */}
+        <div
+          onClick={() => onSelectWorkflow('pan_aadhaar_link')}
+          className="flex items-center gap-3 cursor-pointer group select-none"
+        >
+          <div className="relative w-8 h-8 rounded-xl bg-gradient-to-b from-white/15 to-white/5 border border-white/15 flex items-center justify-center text-white font-mono font-black text-xs shadow-inner transition-transform group-hover:scale-105">
+            DH
+            <span className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 ring-2 ring-[#121215]" />
+          </div>
           
-          {/* Brand Logo & Name */}
-          <div
-            onClick={() => onSelectWorkflow('pan_aadhaar_link')}
-            className="flex items-center gap-3 cursor-pointer select-none"
-          >
-            <div className="w-7 h-7 rounded-md bg-stone-900 text-white flex items-center justify-center font-bold text-xs">
-              DH
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-sm tracking-tight text-stone-900">
-                Document Harmony
-              </span>
-              <span className="text-[11px] font-medium text-stone-600 bg-stone-100 px-1.5 py-0.5 rounded">
-                India
-              </span>
-            </div>
+          <div className="flex items-baseline gap-2">
+            <span className="font-bold text-sm tracking-tight text-white group-hover:text-stone-200 transition-colors">
+              Document Harmony
+            </span>
+            <span className="hidden sm:inline-block text-[10px] font-mono font-semibold text-stone-400 uppercase tracking-wider">
+              IN/KYC
+            </span>
           </div>
-
-          {/* Center: Scenario Quick Selector Dropdown */}
-          <div className="hidden md:flex items-center gap-2">
-            <span className="text-xs text-stone-600 font-medium">Scenario:</span>
-            <div className="relative inline-flex items-center">
-              <select
-                value={activeScenarioId || ''}
-                onChange={(e) => {
-                  const scenario = ACCEPTANCE_SCENARIOS.find((s) => s.id === e.target.value);
-                  if (scenario) onSelectScenario(scenario);
-                }}
-                aria-label="Select acceptance test scenario"
-                className="text-xs font-medium text-stone-800 bg-stone-100 hover:bg-stone-200/70 border border-stone-200 rounded-md pl-2.5 pr-7 py-1 appearance-none focus:outline-none focus:ring-1 focus:ring-stone-400 cursor-pointer"
-              >
-                <option value="" disabled>
-                  Load acceptance scenario...
-                </option>
-                {ACCEPTANCE_SCENARIOS.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.title} ({s.badge})
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-stone-600 pointer-events-none absolute right-2" />
-            </div>
-          </div>
-
-          {/* Right: Privacy & Reset Controls */}
-          <div className="flex items-center gap-2">
-            <button
-              onClick={onOpenPrivacyModal}
-              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-md transition-colors cursor-pointer"
-            >
-              <Shield className="w-3.5 h-3.5 text-stone-500" />
-              <span>Privacy</span>
-            </button>
-
-            <button
-              onClick={onPurgeData}
-              className="inline-flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-stone-600 hover:text-rose-700 hover:bg-rose-50 rounded-md transition-colors cursor-pointer"
-            >
-              <Trash2 className="w-3.5 h-3.5 text-stone-500" />
-              <span>Reset</span>
-            </button>
-          </div>
-
         </div>
+
+        {/* Center: Scenario Quick Selector */}
+        <div className="hidden md:flex items-center gap-2 bg-white/[0.04] hover:bg-white/[0.07] border border-white/8 rounded-xl px-3 py-1.5 transition-colors">
+          <span className="text-[11px] font-mono uppercase tracking-wider text-stone-400">
+            Scenario:
+          </span>
+          <div className="relative inline-flex items-center">
+            <select
+              value={activeScenarioId || ''}
+              onChange={(e) => {
+                const scenario = ACCEPTANCE_SCENARIOS.find((s) => s.id === e.target.value);
+                if (scenario) onSelectScenario(scenario);
+              }}
+              aria-label="Select test scenario"
+              className="text-xs font-semibold text-stone-200 bg-transparent appearance-none focus:outline-none cursor-pointer pr-5 py-0.5"
+            >
+              <option value="" disabled className="bg-[#121215] text-stone-300">
+                Load PRD Acceptance Scenario...
+              </option>
+              {ACCEPTANCE_SCENARIOS.map((s) => (
+                <option key={s.id} value={s.id} className="bg-[#121215] text-stone-300">
+                  {s.title} — [{s.badge}]
+                </option>
+              ))}
+            </select>
+            <ChevronDown className="w-3.5 h-3.5 text-stone-500 pointer-events-none absolute right-0" />
+          </div>
+        </div>
+
+        {/* Right Actions */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={onOpenPrivacyModal}
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-stone-300 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/8 transition-all cursor-pointer"
+          >
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="hidden sm:inline">0-Day Privacy</span>
+            <span className="sm:hidden">Privacy</span>
+          </button>
+
+          <button
+            onClick={onPurgeData}
+            title="Purge session memory"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-medium text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition-all cursor-pointer"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Purge</span>
+          </button>
+        </div>
+
       </div>
     </header>
   );

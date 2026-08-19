@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Header } from '@/components/Header';
+import { HomePage } from '@/components/HomePage';
 import { WizardProgress } from '@/components/WizardProgress';
 import { Step1Workflow } from '@/components/Step1Workflow';
 import { Step2Ingestion } from '@/components/Step2Ingestion';
@@ -25,11 +26,12 @@ import { calculateDocumentHarmony } from '@/utils/matchingEngine';
 import { Check } from 'lucide-react';
 
 export default function Home() {
+  const [currentView, setCurrentView] = useState<'home' | 'wizard'>('home');
   const [currentStep, setCurrentStep] = useState<number>(1);
   const [maxStepReached, setMaxStepReached] = useState<number>(1);
   const [selectedWorkflowId, setSelectedWorkflowId] = useState<WorkflowId>('pan_aadhaar_link');
   const [documents, setDocuments] = useState<DocumentRecord[]>(
-    ACCEPTANCE_SCENARIOS[1].documents // Default load AT-02
+    ACCEPTANCE_SCENARIOS[1].documents // Load AT-02 by default
   );
   const [activeScenarioId, setActiveScenarioId] = useState<string>('AT-02');
   
@@ -43,6 +45,13 @@ export default function Home() {
 
   const analysis = calculateDocumentHarmony(documents, selectedWorkflowId);
 
+  const handleStartAudit = (workflowId?: WorkflowId) => {
+    if (workflowId) setSelectedWorkflowId(workflowId);
+    setCurrentStep(1);
+    setCurrentView('wizard');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleStepClick = (step: number) => {
     setCurrentStep(step);
   };
@@ -51,11 +60,13 @@ export default function Home() {
     const next = Math.min(5, currentStep + 1);
     setCurrentStep(next);
     setMaxStepReached((prev) => Math.max(prev, next));
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handlePrevStep = () => {
     const prev = Math.max(1, currentStep - 1);
     setCurrentStep(prev);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleSelectWorkflow = (id: WorkflowId) => {
@@ -66,6 +77,7 @@ export default function Home() {
     setSelectedWorkflowId(scenario.workflow);
     setDocuments(JSON.parse(JSON.stringify(scenario.documents)));
     setActiveScenarioId(scenario.id);
+    setCurrentView('wizard');
     
     if (scenario.id === 'AT-05') {
       setCurrentStep(3);
@@ -74,6 +86,7 @@ export default function Home() {
       setCurrentStep(4);
       setMaxStepReached(5);
     }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handlePurgeData = () => {
@@ -115,10 +128,10 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col bg-[#09090b] text-[#f4f4f5] relative selection:bg-white selection:text-stone-950">
       
-      {/* Ambient background grid pattern */}
+      {/* Architectural Background Grid Pattern */}
       <div className="fixed inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
 
-      {/* Ephemeral purge toast */}
+      {/* Ephemeral Toast Alert */}
       {purgeToastVisible && (
         <div className="fixed bottom-6 right-6 z-50 bg-stone-900/90 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 text-xs font-semibold border border-white/10 backdrop-blur-md animate-fade-in">
           <Check className="w-3.5 h-3.5 text-emerald-400" />
@@ -135,68 +148,79 @@ export default function Home() {
         onOpenPrivacyModal={() => setPrivacyModalOpen(true)}
         onOpenInfoModal={() => setPrivacyModalOpen(true)}
         activeScenarioId={activeScenarioId}
+        isWizardView={currentView === 'wizard'}
+        onNavigateHome={() => setCurrentView('home')}
+        onStartAudit={() => handleStartAudit()}
       />
 
-      {/* Hardware Tab Stepper */}
-      <WizardProgress
-        currentStep={currentStep}
-        onStepClick={handleStepClick}
-        maxStepReached={maxStepReached}
-      />
-
-      {/* Main Container */}
-      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 pb-20 relative z-10">
-        
-        {currentStep === 1 && (
-          <Step1Workflow
-            selectedWorkflowId={selectedWorkflowId}
-            onSelectWorkflow={handleSelectWorkflow}
+      {/* Main Viewport */}
+      {currentView === 'home' ? (
+        <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 relative z-10">
+          <HomePage
+            onStartAudit={handleStartAudit}
             onSelectScenario={handleSelectScenario}
-            onNextStep={handleNextStep}
+            onOpenPrivacyModal={() => setPrivacyModalOpen(true)}
           />
-        )}
-
-        {currentStep === 2 && (
-          <Step2Ingestion
-            documents={documents}
-            workflow={currentWorkflow}
-            onUpdateDocuments={setDocuments}
-            onPrevStep={handlePrevStep}
-            onNextStep={handleNextStep}
+        </main>
+      ) : (
+        <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 pb-20 relative z-10">
+          {/* Progress Tab Stepper (Only in Wizard) */}
+          <WizardProgress
+            currentStep={currentStep}
+            onStepClick={handleStepClick}
+            maxStepReached={maxStepReached}
           />
-        )}
 
-        {currentStep === 3 && (
-          <Step3OCRVerification
-            documents={documents}
-            onUpdateDocuments={setDocuments}
-            onPrevStep={handlePrevStep}
-            onNextStep={handleNextStep}
-          />
-        )}
+          {currentStep === 1 && (
+            <Step1Workflow
+              selectedWorkflowId={selectedWorkflowId}
+              onSelectWorkflow={handleSelectWorkflow}
+              onSelectScenario={handleSelectScenario}
+              onNextStep={handleNextStep}
+            />
+          )}
 
-        {currentStep === 4 && (
-          <Step4HarmonyReport
-            analysis={analysis}
-            documents={documents}
-            workflow={currentWorkflow}
-            onPrevStep={handlePrevStep}
-            onNextStep={handleNextStep}
-          />
-        )}
+          {currentStep === 2 && (
+            <Step2Ingestion
+              documents={documents}
+              workflow={currentWorkflow}
+              onUpdateDocuments={setDocuments}
+              onPrevStep={handlePrevStep}
+              onNextStep={handleNextStep}
+            />
+          )}
 
-        {currentStep === 5 && (
-          <Step5Remediation
-            analysis={analysis}
-            documents={documents}
-            workflow={currentWorkflow}
-            onPrevStep={handlePrevStep}
-            onExportReport={() => setExportModalOpen(true)}
-            onSimulateResolvedCorrection={handleSimulateResolvedCorrection}
-          />
-        )}
+          {currentStep === 3 && (
+            <Step3OCRVerification
+              documents={documents}
+              onUpdateDocuments={setDocuments}
+              onPrevStep={handlePrevStep}
+              onNextStep={handleNextStep}
+            />
+          )}
 
-      </main>
+          {currentStep === 4 && (
+            <Step4HarmonyReport
+              analysis={analysis}
+              documents={documents}
+              workflow={currentWorkflow}
+              onPrevStep={handlePrevStep}
+              onNextStep={handleNextStep}
+            />
+          )}
+
+          {currentStep === 5 && (
+            <Step5Remediation
+              analysis={analysis}
+              documents={documents}
+              workflow={currentWorkflow}
+              onPrevStep={handlePrevStep}
+              onExportReport={() => setExportModalOpen(true)}
+              onSimulateResolvedCorrection={handleSimulateResolvedCorrection}
+            />
+          )}
+        </main>
+      )}
 
       {/* Sleek Minimalist Footer */}
       <footer className="border-t border-white/8 bg-[#09090b]/80 backdrop-blur-md py-6 text-xs text-stone-400 relative z-10">

@@ -115,27 +115,27 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
   };
 
   return (
-    <div className="space-y-6 sm:space-y-8 animate-fade-in text-slate-900">
+    <div className="space-y-10 sm:space-y-14 animate-fade-in text-slate-900">
       
       {/* Top Banner */}
-      <div className="rounded-3xl bg-white p-5 sm:p-7 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      <div className="rounded-3xl bg-white p-7 sm:p-10 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div>
           <div className="flex items-center gap-2">
             <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 border border-amber-200">
               OCR Verification Gate
             </span>
           </div>
-          <h2 className="text-lg sm:text-xl font-black text-[#0c2340] mt-1 tracking-tight">
+          <h2 className="text-xl sm:text-2xl font-black text-[#0c2340] mt-2 tracking-tight">
             3. Forensic OCR Attribute Review
           </h2>
-          <p className="text-xs text-slate-600 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
             Confirm that machine-parsed strings strictly mirror physical print. Fix optical misreads before running cross-matching.
           </p>
         </div>
 
         <button
           onClick={handleVerifyAll}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-300 transition-all cursor-pointer select-none shrink-0 w-full sm:w-auto"
+          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs sm:text-sm font-bold border border-emerald-300 transition-all cursor-pointer select-none shrink-0 w-full sm:w-auto shadow-2xs"
         >
           <CheckCircle2 className="w-4 h-4 text-emerald-600" />
           <span>Confirm All Extracted Fields</span>
@@ -143,7 +143,7 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
       </div>
 
       {/* Extracted Fields by Document */}
-      <div className="space-y-4">
+      <div className="space-y-6">
         {uploadedDocs.map((doc) => {
           const fieldEntries = Object.entries(doc.fields) as [
             keyof DocumentRecord['fields'],
@@ -153,20 +153,20 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
           return (
             <div
               key={doc.id}
-              className="rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden"
+              className="rounded-3xl bg-white border border-slate-200 shadow-xs overflow-hidden"
             >
               {/* Header */}
-              <div className="px-4 sm:px-5 py-3.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center shrink-0">
-                    <FileText className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-8 h-8 rounded-xl bg-slate-200 text-slate-700 flex items-center justify-center shrink-0">
+                    <FileText className="w-4 h-4" />
                   </div>
-                  <h3 className="font-bold text-xs sm:text-sm text-slate-900 truncate">
+                  <h3 className="font-bold text-sm sm:text-base text-slate-900 truncate">
                     {doc.title}
                   </h3>
                 </div>
 
-                <span className="text-[10px] sm:text-[11px] font-mono text-slate-500 font-medium truncate">
+                <span className="text-xs font-mono text-slate-500 font-medium truncate">
                   {doc.fileName}
                 </span>
               </div>
@@ -182,15 +182,15 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
                   return (
                     <div
                       key={fieldName}
-                      className="p-3.5 sm:p-4 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                      className="p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs sm:text-sm"
                     >
                       {/* Label & Confidence */}
-                      <div className="sm:w-52 shrink-0">
+                      <div className="sm:w-56 shrink-0 space-y-1">
                         <span className="font-bold text-slate-800">
                           {friendlyLabels[fieldName] || fieldName}
                         </span>
-                        <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[10px] font-mono text-slate-500 font-semibold">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[11px] font-mono text-slate-500 font-semibold">
                             {(field.rawConfidence * 100).toFixed(0)}% confidence
                           </span>
                           {isLow && (
@@ -209,49 +209,49 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
                               type="text"
                               value={editValue}
                               onChange={(e) => setEditValue(e.target.value)}
-                              className="w-full text-xs font-mono font-bold text-slate-950 px-3 py-1.5 rounded-lg border border-[#0c2340] bg-white focus:outline-none focus:ring-2 focus:ring-[#0c2340]/20"
+                              className="w-full text-xs sm:text-sm font-mono font-bold text-slate-950 px-3.5 py-2 rounded-xl border border-[#0c2340] bg-white focus:outline-none focus:ring-2 focus:ring-[#0c2340]/20"
                               autoFocus
                             />
                             <button
                               onClick={() => handleSaveEdit(doc.type, fieldName)}
-                              className="p-1.5 rounded-lg bg-[#0c2340] text-white hover:bg-[#16375f] transition-colors cursor-pointer shrink-0"
+                              className="p-2 rounded-xl bg-[#0c2340] text-white hover:bg-[#16375f] transition-colors cursor-pointer shrink-0"
                             >
-                              <Check className="w-3.5 h-3.5 stroke-[3]" />
+                              <Check className="w-4 h-4 stroke-[3]" />
                             </button>
                             <button
                               onClick={handleCancelEdit}
-                              className="p-1.5 rounded-lg bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer shrink-0"
+                              className="p-2 rounded-xl bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer shrink-0"
                             >
-                              <X className="w-3.5 h-3.5" />
+                              <X className="w-4 h-4" />
                             </button>
                           </div>
                         ) : (
-                          <div className="flex items-center justify-between gap-2 bg-slate-50 p-2 sm:p-2.5 rounded-xl border border-slate-200 transition-colors">
-                            <span className="font-mono font-bold text-slate-900 truncate">
+                          <div className="flex items-center justify-between gap-3 bg-slate-50 p-3 sm:p-3.5 rounded-2xl border border-slate-200 transition-colors">
+                            <span className="font-mono font-bold text-slate-900 truncate text-xs sm:text-sm">
                               {field.value || '—'}
                             </span>
                             <button
                               onClick={() => handleStartEdit(doc.type, fieldName, field.value)}
-                              className="text-slate-400 hover:text-slate-900 p-1 rounded transition-colors cursor-pointer"
+                              className="text-slate-400 hover:text-slate-900 p-1.5 rounded-lg transition-colors cursor-pointer"
                               title="Edit extracted value"
                             >
-                              <Edit2 className="w-3.5 h-3.5" />
+                              <Edit2 className="w-4 h-4" />
                             </button>
                           </div>
                         )}
                       </div>
 
                       {/* Verification Status */}
-                      <div className="sm:w-28 shrink-0 sm:text-right">
+                      <div className="sm:w-32 shrink-0 sm:text-right">
                         {field.isUserVerified ? (
-                          <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-                            <Check className="w-3 h-3 text-emerald-600 stroke-[3]" />
+                          <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                            <Check className="w-3.5 h-3.5 text-emerald-600 stroke-[3]" />
                             Verified
                           </span>
                         ) : (
                           <button
                             onClick={() => handleVerifyField(doc.type, fieldName)}
-                            className="text-[11px] font-bold text-[#0c2340] hover:underline cursor-pointer"
+                            className="text-xs font-bold text-[#0c2340] hover:underline cursor-pointer"
                           >
                             Mark Valid
                           </button>
@@ -269,18 +269,18 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
       </div>
 
       {/* Footer Navigation (Responsive Full-Width Stack on Mobile) */}
-      <div className="pt-4 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-3 border-t border-slate-200">
+      <div className="pt-6 flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-slate-200">
         <button
           onClick={onPrevStep}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer w-full sm:w-auto"
+          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer w-full sm:w-auto"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
+          <ArrowLeft className="w-4 h-4" />
           <span>Back to Proofs</span>
         </button>
 
         <button
           onClick={onNextStep}
-          className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer select-none w-full sm:w-auto"
+          className="inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer select-none w-full sm:w-auto"
         >
           <span>Calculate Harmony Matrix</span>
           <ArrowRight className="w-4 h-4 text-amber-300" />

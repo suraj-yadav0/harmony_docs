@@ -29,9 +29,9 @@ export const WizardProgress: React.FC<WizardProgressProps> = ({
   maxStepReached,
 }) => {
   return (
-    <nav aria-label="Verification progress" className="w-full my-6">
-      <div className="max-w-5xl mx-auto p-1.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-        <div className="grid grid-cols-5 gap-1.5">
+    <nav aria-label="Verification progress" className="w-full my-8 sm:my-10">
+      <div className="max-w-5xl mx-auto p-2 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+        <div className="grid grid-cols-5 gap-2">
           {STEPS.map((item) => {
             const isCurrent = item.step === currentStep;
             const isCompleted = item.step < currentStep;
@@ -43,7 +43,7 @@ export const WizardProgress: React.FC<WizardProgressProps> = ({
                 key={item.step}
                 disabled={!isClickable}
                 onClick={() => isClickable && onStepClick(item.step)}
-                className={`group py-2.5 px-2 sm:px-3 rounded-xl transition-all flex items-center justify-center gap-2 select-none ${
+                className={`group py-3 sm:py-3.5 px-2 sm:px-4 rounded-xl transition-all flex items-center justify-center gap-2 sm:gap-2.5 select-none ${
                   isCurrent
                     ? 'bg-[#0c2340] text-white shadow-sm font-bold'
                     : isCompleted
@@ -54,7 +54,7 @@ export const WizardProgress: React.FC<WizardProgressProps> = ({
                 }`}
               >
                 <div
-                  className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-mono font-bold transition-colors ${
+                  className={`w-5 h-5 sm:w-6 sm:h-6 rounded-md flex items-center justify-center text-[10px] sm:text-xs font-mono font-bold transition-colors shrink-0 ${
                     isCurrent
                       ? 'bg-white text-[#0c2340]'
                       : isCompleted
@@ -65,7 +65,7 @@ export const WizardProgress: React.FC<WizardProgressProps> = ({
                   {item.step}
                 </div>
 
-                <span className="hidden md:inline-block text-xs tracking-tight truncate">
+                <span className="hidden md:inline-block text-xs sm:text-sm tracking-tight truncate">
                   {item.label}
                 </span>
                 

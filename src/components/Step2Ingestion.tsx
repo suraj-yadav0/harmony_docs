@@ -7,12 +7,16 @@ import {
   Trash2,
   ArrowRight,
   ArrowLeft,
-  Check,
-  FileText,
   Sparkles,
 } from 'lucide-react';
 import { DocumentRecord, DocumentType, WorkflowConfig } from '@/types';
 import { CameraModal } from './CameraModal';
+import {
+  AadhaarCardPreview,
+  PanCardPreview,
+  MarksheetPreview,
+  BankPassbookPreview,
+} from './DocumentCards';
 
 interface Step2IngestionProps {
   documents: DocumentRecord[];
@@ -90,6 +94,7 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
 }) => {
   const [cameraModalOpen, setCameraModalOpen] = useState(false);
   const [activeCameraDocType, setActiveCameraDocType] = useState<DocumentType>('aadhaar');
+  const [selectedDocType, setSelectedDocType] = useState<DocumentType>('aadhaar');
 
   const uploadedCount = documents.filter((d) => d.isUploaded).length;
 
@@ -149,7 +154,7 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
         const meta = DOC_METADATA[docType];
         return {
           ...d,
-          fileName: `${docType}_verified_scan.pdf`,
+          fileName: `${docType}_scan.pdf`,
           fileSize: '1.2 MB',
           isUploaded: true,
           fields: meta.sampleData || {},
@@ -174,6 +179,52 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
     onUpdateDocuments(updated);
   };
 
+  const renderDocCard = (doc: DocumentRecord) => {
+    const isSelected = selectedDocType === doc.type;
+    switch (doc.type) {
+      case 'aadhaar':
+        return (
+          <AadhaarCardPreview
+            key={doc.id}
+            document={doc}
+            isActive={isSelected}
+            onSelect={() => setSelectedDocType(doc.type)}
+          />
+        );
+      case 'pan':
+        return (
+          <PanCardPreview
+            key={doc.id}
+            document={doc}
+            isActive={isSelected}
+            onSelect={() => setSelectedDocType(doc.type)}
+          />
+        );
+      case 'marksheet':
+        return (
+          <MarksheetPreview
+            key={doc.id}
+            document={doc}
+            isActive={isSelected}
+            onSelect={() => setSelectedDocType(doc.type)}
+          />
+        );
+      case 'bank_passbook':
+        return (
+          <BankPassbookPreview
+            key={doc.id}
+            document={doc}
+            isActive={isSelected}
+            onSelect={() => setSelectedDocType(doc.type)}
+          />
+        );
+      default:
+        return null;
+    }
+  };
+
+  const currentSelectedDoc = documents.find((d) => d.type === selectedDocType) || documents[0];
+
   return (
     <div className="space-y-8 animate-fade-in">
       
@@ -193,7 +244,7 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
               2. Ingest Official Identity Proofs
             </h2>
             <p className="text-xs text-stone-400 mt-0.5">
-              Files are evaluated in-memory. Zero document transmission to persistent cloud storage.
+              Click any document card below to attach scans or verify details in real-time.
             </p>
           </div>
 
@@ -207,135 +258,80 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
         </div>
       </div>
 
-      {/* Documents Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {documents.map((doc) => {
-          const meta = DOC_METADATA[doc.type] || {
-            label: doc.title,
-            authority: 'Official Authority',
-            code: 'DOC',
-            p0: true,
-          };
-          const isRequired = workflow.requiredDocs.includes(doc.type);
-
-          return (
-            <div
-              key={doc.id}
-              className={`rounded-2xl p-1 transition-all ${
-                doc.isUploaded
-                  ? 'bg-gradient-to-b from-emerald-500/20 to-transparent border border-emerald-500/30'
-                  : isRequired
-                  ? 'bg-white/[0.04] border border-white/10'
-                  : 'bg-white/[0.02] border border-white/5 opacity-70'
-              }`}
-            >
-              <div className="h-full rounded-xl bg-[#111115] p-5 flex flex-col justify-between space-y-4">
-                
-                {/* Header */}
-                <div>
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-mono font-bold text-stone-400">
-                          [{meta.code}]
-                        </span>
-                        <h3 className="font-bold text-sm text-white">
-                          {meta.label}
-                        </h3>
-                      </div>
-                      <p className="text-xs text-stone-400 mt-0.5">
-                        {meta.authority}
-                      </p>
-                    </div>
-
-                    {doc.isUploaded ? (
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                        <Check className="w-3 h-3 stroke-[3]" />
-                        Attached
-                      </span>
-                    ) : isRequired ? (
-                      <span className="text-[10px] font-mono font-bold uppercase text-stone-400 bg-white/[0.06] px-2 py-0.5 rounded">
-                        Required
-                      </span>
-                    ) : null}
-                  </div>
-
-                  {/* Upload State Box */}
-                  {doc.isUploaded ? (
-                    <div className="mt-4 p-3 rounded-xl bg-white/[0.03] border border-white/8 flex items-center justify-between">
-                      <div className="flex items-center gap-2.5 min-w-0">
-                        <div className="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
-                          <FileText className="w-4 h-4" />
-                        </div>
-                        <div className="min-w-0">
-                          <p className="text-xs font-semibold text-white truncate">
-                            {doc.fileName || `${doc.type}_scan.pdf`}
-                          </p>
-                          <p className="text-[10px] font-mono text-stone-400">
-                            {doc.fileSize || '1.1 MB'} • Memory Ingested
-                          </p>
-                        </div>
-                      </div>
-
-                      <button
-                        onClick={() => handleRemoveDoc(doc.type)}
-                        className="p-1.5 rounded-lg text-stone-400 hover:text-rose-400 hover:bg-rose-500/10 transition-colors cursor-pointer"
-                        title="Remove file"
-                      >
-                        <Trash2 className="w-3.5 h-3.5" />
-                      </button>
-                    </div>
-                  ) : (
-                    <div className="mt-4 p-4 rounded-xl border border-dashed border-white/15 bg-white/[0.02] flex items-center justify-center gap-2">
-                      <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white text-stone-950 hover:bg-stone-200 cursor-pointer transition-colors shadow-sm">
-                        <Upload className="w-3.5 h-3.5" />
-                        <span>Upload Scan</span>
-                        <input
-                          type="file"
-                          accept=".jpg,.jpeg,.png,.pdf"
-                          className="hidden"
-                          onChange={(e) => {
-                            if (e.target.files?.[0]) {
-                              handleFileUpload(doc.type, e.target.files[0]);
-                            }
-                          }}
-                        />
-                      </label>
-
-                      <button
-                        onClick={() => {
-                          setActiveCameraDocType(doc.type);
-                          setCameraModalOpen(true);
-                        }}
-                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/[0.06] hover:bg-white/[0.1] text-stone-200 border border-white/10 transition-colors cursor-pointer"
-                      >
-                        <Camera className="w-3.5 h-3.5 text-stone-400" />
-                        <span>Camera</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
-
-                {/* Footer Sample Trigger */}
-                {!doc.isUploaded && (
-                  <div className="pt-2 border-t border-white/5 flex items-center justify-between text-[11px]">
-                    <span className="text-stone-500 font-mono">Quick test?</span>
-                    <button
-                      onClick={() => handleLoadSampleForDoc(doc.type)}
-                      className="text-stone-300 hover:text-white font-medium underline underline-offset-2 cursor-pointer"
-                    >
-                      Fill sample {meta.code}
-                    </button>
-                  </div>
-                )}
-
-              </div>
-            </div>
-          );
-        })}
+      {/* Interactive Document Physical Cards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {documents.map((doc) => renderDocCard(doc))}
       </div>
 
-      {/* Footer Actions */}
+      {/* Selected Document Action Bar */}
+      {currentSelectedDoc && (
+        <div className="rounded-2xl p-1 bg-white/[0.04] border border-white/10">
+          <div className="rounded-xl bg-[#121216] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <span className="text-[10px] font-mono uppercase font-bold text-stone-400 tracking-wider">
+                Active Selection:
+              </span>
+              <h4 className="text-sm font-bold text-white mt-0.5">
+                {DOC_METADATA[currentSelectedDoc.type]?.label || currentSelectedDoc.title}
+              </h4>
+              <p className="text-xs text-stone-400 mt-0.5">
+                {currentSelectedDoc.isUploaded
+                  ? `File attached: ${currentSelectedDoc.fileName} (${currentSelectedDoc.fileSize})`
+                  : 'No file currently attached for this proof.'}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 shrink-0">
+              {currentSelectedDoc.isUploaded ? (
+                <button
+                  onClick={() => handleRemoveDoc(currentSelectedDoc.type)}
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition-colors cursor-pointer"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                  <span>Remove Proof</span>
+                </button>
+              ) : (
+                <>
+                  <label className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-white text-stone-950 hover:bg-stone-200 cursor-pointer transition-colors shadow-sm">
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>Upload File</span>
+                    <input
+                      type="file"
+                      accept=".jpg,.jpeg,.png,.pdf"
+                      className="hidden"
+                      onChange={(e) => {
+                        if (e.target.files?.[0]) {
+                          handleFileUpload(currentSelectedDoc.type, e.target.files[0]);
+                        }
+                      }}
+                    />
+                  </label>
+
+                  <button
+                    onClick={() => {
+                      setActiveCameraDocType(currentSelectedDoc.type);
+                      setCameraModalOpen(true);
+                    }}
+                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/[0.06] hover:bg-white/[0.1] text-white border border-white/10 transition-colors cursor-pointer"
+                  >
+                    <Camera className="w-3.5 h-3.5 text-stone-400" />
+                    <span>Scan with Camera</span>
+                  </button>
+
+                  <button
+                    onClick={() => handleLoadSampleForDoc(currentSelectedDoc.type)}
+                    className="text-xs text-stone-400 hover:text-white underline px-1 cursor-pointer"
+                  >
+                    Sample
+                  </button>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Footer Navigation */}
       <div className="pt-4 flex items-center justify-between border-t border-white/8">
         <button
           onClick={onPrevStep}

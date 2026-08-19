@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ArrowRight,
   ArrowLeft,
@@ -9,9 +9,17 @@ import {
   AlertTriangle,
   XCircle,
   FileSpreadsheet,
+  Layers,
+  Scale,
 } from 'lucide-react';
 import { DocumentRecord, HarmonyAnalysisResult, WorkflowConfig } from '@/types';
 import { DiffVisualizer } from './DiffVisualizer';
+import {
+  AadhaarCardPreview,
+  PanCardPreview,
+  MarksheetPreview,
+  BankPassbookPreview,
+} from './DocumentCards';
 
 interface Step4HarmonyReportProps {
   analysis: HarmonyAnalysisResult;
@@ -23,10 +31,12 @@ interface Step4HarmonyReportProps {
 
 export const Step4HarmonyReport: React.FC<Step4HarmonyReportProps> = ({
   analysis,
+  documents,
   onPrevStep,
   onNextStep,
 }) => {
   const { overallStatus, harmonyScore, statusSummary, fieldResults, anchorAnalysis } = analysis;
+  const [selectedProofType, setSelectedProofType] = useState<string>('aadhaar');
 
   const getStatusBadge = (status: 'GREEN' | 'AMBER' | 'RED' | 'UNAVAILABLE') => {
     if (status === 'GREEN') {
@@ -59,6 +69,8 @@ export const Step4HarmonyReport: React.FC<Step4HarmonyReportProps> = ({
   const nameResult = fieldResults.find((f) => f.fieldName === 'name');
   const dobResult = fieldResults.find((f) => f.fieldName === 'dob');
   const fatherResult = fieldResults.find((f) => f.fieldName === 'fatherName');
+
+  const uploadedDocs = documents.filter((d) => d.isUploaded);
 
   return (
     <div className="space-y-8 animate-fade-in">
@@ -127,42 +139,130 @@ export const Step4HarmonyReport: React.FC<Step4HarmonyReportProps> = ({
             </div>
           </div>
 
+          <div className="w-full md:w-auto flex md:flex-col gap-2 shrink-0 border-t md:border-t-0 md:border-l border-white/8 pt-4 md:pt-0 md:pl-6 text-xs font-mono text-stone-400">
+            <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/6">
+              <span className="text-[9px] uppercase tracking-wider block text-stone-500">Proofs Audited:</span>
+              <span className="font-bold text-white text-xs">{uploadedDocs.length} Official Records</span>
+            </div>
+            <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/6">
+              <span className="text-[9px] uppercase tracking-wider block text-stone-500">Anchor:</span>
+              <span className="font-bold text-emerald-400 text-xs truncate max-w-[150px] inline-block">
+                {anchorAnalysis.anchorDocTitle || 'Class 10 Marksheet'}
+              </span>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      {/* 2. Authoritative Anchor Precedence Card */}
+      {/* 2. Visual Precedence Hierarchy Flow */}
       <div className="rounded-2xl p-1 bg-white/[0.04] border border-white/8">
-        <div className="rounded-xl bg-[#111115] p-5 space-y-3">
-          <div className="flex items-center justify-between border-b border-white/6 pb-2.5">
+        <div className="rounded-xl bg-[#111115] p-5 sm:p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-white/6 pb-3">
             <div className="flex items-center gap-2">
-              <Anchor className="w-4 h-4 text-emerald-400" />
-              <h3 className="font-bold text-xs sm:text-sm text-white">
-                Authoritative Anchor Analysis
+              <Scale className="w-4 h-4 text-purple-400" />
+              <h3 className="font-bold text-sm text-white">
+                Statutory Precedence & Conflict Resolution Hierarchy
               </h3>
             </div>
             <span className="text-[10px] font-mono font-bold uppercase text-stone-400 px-2 py-0.5 rounded bg-white/[0.04] border border-white/6">
-              Legal Precedence
+              Supreme Court Guidelines
             </span>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-            <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5">
-              <span className="text-[10px] font-mono text-stone-400 uppercase">Authoritative Anchor:</span>
-              <p className="font-bold text-emerald-400 mt-0.5">
-                {anchorAnalysis.anchorDocTitle || 'Class 10th Marksheet'}
+            {/* Step 1 Precedence */}
+            <div className="p-3.5 rounded-xl bg-purple-500/10 border border-purple-500/20 space-y-1">
+              <div className="flex items-center gap-1.5 font-bold text-purple-300">
+                <span className="w-5 h-5 rounded-full bg-purple-500/30 text-center text-xs flex items-center justify-center">1</span>
+                <span>Tier-1 Date of Birth Anchor</span>
+              </div>
+              <p className="font-bold text-white text-xs mt-1">Class 10th / 12th Marksheet</p>
+              <p className="text-stone-400 text-[11px] leading-relaxed">
+                Primary conclusive proof for Date of Birth and Father&apos;s Name across Indian tribunals.
               </p>
             </div>
-            <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5 sm:col-span-2">
-              <span className="text-[10px] font-mono text-stone-400 uppercase">Rationale:</span>
-              <p className="text-stone-300 mt-0.5 leading-relaxed">
-                {anchorAnalysis.rationale}
+
+            {/* Step 2 Precedence */}
+            <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+              <div className="flex items-center gap-1.5 font-bold text-emerald-300">
+                <span className="w-5 h-5 rounded-full bg-emerald-500/30 text-center text-xs flex items-center justify-center">2</span>
+                <span>Tier-2 Identity & Biometric Anchor</span>
+              </div>
+              <p className="font-bold text-white text-xs mt-1">Aadhaar (UIDAI)</p>
+              <p className="text-stone-400 text-[11px] leading-relaxed">
+                Mandatory anchor for biometric KYC authentication and demographic matching.
               </p>
+            </div>
+
+            {/* Step 3 Precedence */}
+            <div className="p-3.5 rounded-xl bg-blue-500/10 border border-blue-500/20 space-y-1">
+              <div className="flex items-center gap-1.5 font-bold text-blue-300">
+                <span className="w-5 h-5 rounded-full bg-blue-500/30 text-center text-xs flex items-center justify-center">3</span>
+                <span>Tier-3 Dependent Financial ID</span>
+              </div>
+              <p className="font-bold text-white text-xs mt-1">PAN Card (Income Tax Dept)</p>
+              <p className="text-stone-400 text-[11px] leading-relaxed">
+                Derived tax record; must be updated to match the authoritative Aadhaar / Marksheet record.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5 text-xs text-stone-300 flex items-start gap-2">
+            <Anchor className="w-4 h-4 text-emerald-400 shrink-0 mt-0.5" />
+            <div>
+              <strong className="text-white">Active Case Determination:</strong>{' '}
+              {anchorAnalysis.rationale}
             </div>
           </div>
         </div>
       </div>
 
-      {/* 3. Cross Comparison Matrix Table */}
+      {/* 3. Interactive Physical Proofs Comparison */}
+      <div className="rounded-2xl p-1 bg-white/[0.04] border border-white/8 space-y-3">
+        <div className="rounded-xl bg-[#111115] p-5 space-y-4">
+          <div className="flex items-center justify-between border-b border-white/6 pb-3">
+            <div className="flex items-center gap-2">
+              <Layers className="w-4 h-4 text-emerald-400" />
+              <h3 className="font-bold text-sm text-white">
+                Interactive Proof Inspector
+              </h3>
+            </div>
+            <div className="flex items-center gap-1">
+              {uploadedDocs.map((d) => (
+                <button
+                  key={d.id}
+                  onClick={() => setSelectedProofType(d.type)}
+                  className={`px-3 py-1 rounded-lg text-xs font-mono font-semibold transition-all cursor-pointer ${
+                    selectedProofType === d.type
+                      ? 'bg-white text-stone-950 shadow-sm'
+                      : 'bg-white/[0.04] text-stone-400 hover:text-white'
+                  }`}
+                >
+                  {d.type.replace('_', ' ').toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            {selectedProofType === 'aadhaar' && (
+              <AadhaarCardPreview document={documents.find((d) => d.type === 'aadhaar') || documents[0]} isActive />
+            )}
+            {selectedProofType === 'pan' && (
+              <PanCardPreview document={documents.find((d) => d.type === 'pan') || documents[0]} isActive />
+            )}
+            {selectedProofType === 'marksheet' && (
+              <MarksheetPreview document={documents.find((d) => d.type === 'marksheet') || documents[0]} isActive />
+            )}
+            {selectedProofType === 'bank_passbook' && (
+              <BankPassbookPreview document={documents.find((d) => d.type === 'bank_passbook') || documents[0]} isActive />
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* 4. Cross Comparison Matrix Table */}
       <div className="rounded-2xl p-1 bg-white/[0.04] border border-white/8 overflow-hidden text-xs">
         <div className="rounded-xl bg-[#111115] overflow-hidden">
           <div className="px-5 py-3 bg-white/[0.02] border-b border-white/6 flex items-center justify-between">
@@ -216,7 +316,7 @@ export const Step4HarmonyReport: React.FC<Step4HarmonyReportProps> = ({
         </div>
       </div>
 
-      {/* 4. Token Diff Visualizers */}
+      {/* 5. Token Diff Visualizers */}
       {nameResult && nameResult.technicalDetails.tokenDiffs && nameResult.technicalDetails.tokenDiffs.length > 0 && (
         <DiffVisualizer fieldResult={nameResult} />
       )}

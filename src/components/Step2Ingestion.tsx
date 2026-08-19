@@ -154,7 +154,7 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
         const meta = DOC_METADATA[docType];
         return {
           ...d,
-          fileName: `${docType}_scan.pdf`,
+          fileName: `${docType}_verified_scan.pdf`,
           fileSize: '1.2 MB',
           isUploaded: true,
           fields: meta.sampleData || {},
@@ -226,36 +226,34 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
   const currentSelectedDoc = documents.find((d) => d.type === selectedDocType) || documents[0];
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in text-slate-900">
       
       {/* Top Banner */}
-      <div className="rounded-2xl p-1 bg-white/[0.04] border border-white/8">
-        <div className="rounded-xl bg-[#101014] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-white/[0.06] text-stone-300 border border-white/10">
-                {workflow.title}
-              </span>
-              <span className="text-xs text-stone-400 font-mono">
-                {uploadedCount} of {documents.length} Proofs Loaded
-              </span>
-            </div>
-            <h2 className="text-lg sm:text-xl font-bold text-white mt-1.5 tracking-tight">
-              2. Ingest Official Identity Proofs
-            </h2>
-            <p className="text-xs text-stone-400 mt-0.5">
-              Click any document card below to attach scans or verify details in real-time.
-            </p>
+      <div className="rounded-3xl bg-white p-6 sm:p-7 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-800 border border-slate-200">
+              {workflow.title}
+            </span>
+            <span className="text-xs text-slate-500 font-mono font-semibold">
+              {uploadedCount} of {documents.length} Proofs Loaded
+            </span>
           </div>
-
-          <button
-            onClick={handleLoadAllSampleDocs}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white/[0.06] hover:bg-white/[0.1] text-xs font-semibold text-white border border-white/10 transition-all cursor-pointer select-none shrink-0"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-stone-300" />
-            <span>Autofill All Proofs</span>
-          </button>
+          <h2 className="text-lg sm:text-xl font-black text-[#0c2340] mt-1 tracking-tight">
+            2. Ingest Official Identity Proofs
+          </h2>
+          <p className="text-xs text-slate-600 mt-0.5">
+            Click any physical card below to upload high-resolution scans or take photos via camera.
+          </p>
         </div>
+
+        <button
+          onClick={handleLoadAllSampleDocs}
+          className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-xs font-bold text-slate-800 border border-slate-200 transition-all cursor-pointer select-none shrink-0"
+        >
+          <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+          <span>Autofill All Proofs</span>
+        </button>
       </div>
 
       {/* Interactive Document Physical Cards Grid */}
@@ -265,77 +263,75 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
 
       {/* Selected Document Action Bar */}
       {currentSelectedDoc && (
-        <div className="rounded-2xl p-1 bg-white/[0.04] border border-white/10">
-          <div className="rounded-xl bg-[#121216] p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <span className="text-[10px] font-mono uppercase font-bold text-stone-400 tracking-wider">
-                Active Selection:
-              </span>
-              <h4 className="text-sm font-bold text-white mt-0.5">
-                {DOC_METADATA[currentSelectedDoc.type]?.label || currentSelectedDoc.title}
-              </h4>
-              <p className="text-xs text-stone-400 mt-0.5">
-                {currentSelectedDoc.isUploaded
-                  ? `File attached: ${currentSelectedDoc.fileName} (${currentSelectedDoc.fileSize})`
-                  : 'No file currently attached for this proof.'}
-              </p>
-            </div>
+        <div className="rounded-2xl bg-white p-5 border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <span className="text-[10px] font-mono uppercase font-bold text-slate-400 tracking-wider">
+              Active Selection:
+            </span>
+            <h4 className="text-sm font-bold text-[#0c2340] mt-0.5">
+              {DOC_METADATA[currentSelectedDoc.type]?.label || currentSelectedDoc.title}
+            </h4>
+            <p className="text-xs text-slate-600 mt-0.5 font-mono">
+              {currentSelectedDoc.isUploaded
+                ? `Attached: ${currentSelectedDoc.fileName} (${currentSelectedDoc.fileSize})`
+                : 'No document file currently uploaded for this proof.'}
+            </p>
+          </div>
 
-            <div className="flex items-center gap-2 shrink-0">
-              {currentSelectedDoc.isUploaded ? (
-                <button
-                  onClick={() => handleRemoveDoc(currentSelectedDoc.type)}
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-rose-400 hover:text-rose-300 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition-colors cursor-pointer"
-                >
-                  <Trash2 className="w-3.5 h-3.5" />
-                  <span>Remove Proof</span>
-                </button>
-              ) : (
-                <>
-                  <label className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-white text-stone-950 hover:bg-stone-200 cursor-pointer transition-colors shadow-sm">
-                    <Upload className="w-3.5 h-3.5" />
-                    <span>Upload File</span>
-                    <input
-                      type="file"
-                      accept=".jpg,.jpeg,.png,.pdf"
-                      className="hidden"
-                      onChange={(e) => {
-                        if (e.target.files?.[0]) {
-                          handleFileUpload(currentSelectedDoc.type, e.target.files[0]);
-                        }
-                      }}
-                    />
-                  </label>
-
-                  <button
-                    onClick={() => {
-                      setActiveCameraDocType(currentSelectedDoc.type);
-                      setCameraModalOpen(true);
+          <div className="flex items-center gap-2 shrink-0">
+            {currentSelectedDoc.isUploaded ? (
+              <button
+                onClick={() => handleRemoveDoc(currentSelectedDoc.type)}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border border-rose-200 transition-colors cursor-pointer"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Remove Proof</span>
+              </button>
+            ) : (
+              <>
+                <label className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-[#0c2340] hover:bg-[#16375f] text-white cursor-pointer transition-colors shadow-xs">
+                  <Upload className="w-3.5 h-3.5" />
+                  <span>Upload File</span>
+                  <input
+                    type="file"
+                    accept=".jpg,.jpeg,.png,.pdf"
+                    className="hidden"
+                    onChange={(e) => {
+                      if (e.target.files?.[0]) {
+                        handleFileUpload(currentSelectedDoc.type, e.target.files[0]);
+                      }
                     }}
-                    className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/[0.06] hover:bg-white/[0.1] text-white border border-white/10 transition-colors cursor-pointer"
-                  >
-                    <Camera className="w-3.5 h-3.5 text-stone-400" />
-                    <span>Scan with Camera</span>
-                  </button>
+                  />
+                </label>
 
-                  <button
-                    onClick={() => handleLoadSampleForDoc(currentSelectedDoc.type)}
-                    className="text-xs text-stone-400 hover:text-white underline px-1 cursor-pointer"
-                  >
-                    Sample
-                  </button>
-                </>
-              )}
-            </div>
+                <button
+                  onClick={() => {
+                    setActiveCameraDocType(currentSelectedDoc.type);
+                    setCameraModalOpen(true);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-bold bg-white text-slate-800 hover:bg-slate-50 border border-slate-300 transition-colors cursor-pointer"
+                >
+                  <Camera className="w-3.5 h-3.5 text-slate-600" />
+                  <span>Camera</span>
+                </button>
+
+                <button
+                  onClick={() => handleLoadSampleForDoc(currentSelectedDoc.type)}
+                  className="text-xs text-slate-600 hover:text-slate-950 underline px-1.5 cursor-pointer font-medium"
+                >
+                  Sample
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}
 
-      {/* Footer Navigation */}
-      <div className="pt-4 flex items-center justify-between border-t border-white/8">
+      {/* Footer Actions */}
+      <div className="pt-4 flex items-center justify-between border-t border-slate-200">
         <button
           onClick={onPrevStep}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-medium text-stone-400 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/8 transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Intent</span>
@@ -344,16 +340,14 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
         <button
           onClick={onNextStep}
           disabled={uploadedCount === 0}
-          className={`group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full font-bold text-xs sm:text-sm shadow-xl transition-all select-none active:scale-[0.98] ${
+          className={`inline-flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-xs sm:text-sm shadow-md transition-all select-none ${
             uploadedCount > 0
-              ? 'bg-white hover:bg-stone-200 text-stone-950 cursor-pointer'
-              : 'bg-white/10 text-stone-500 cursor-not-allowed border border-white/5'
+              ? 'bg-[#0c2340] hover:bg-[#16375f] text-white cursor-pointer'
+              : 'bg-slate-200 text-slate-400 cursor-not-allowed border border-slate-200'
           }`}
         >
           <span>Verify Extracted Attributes</span>
-          <div className="w-7 h-7 rounded-full bg-stone-950 text-white flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
-            <ArrowRight className="w-3.5 h-3.5" />
-          </div>
+          <ArrowRight className="w-4 h-4 text-amber-300" />
         </button>
       </div>
 

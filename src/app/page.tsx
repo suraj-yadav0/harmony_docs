@@ -126,20 +126,20 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#09090b] text-[#f4f4f5] relative selection:bg-white selection:text-stone-950">
+    <div className="min-h-screen flex flex-col bg-[#f8fafc] text-slate-900 relative selection:bg-[#0c2340] selection:text-white">
       
-      {/* Architectural Background Grid Pattern */}
-      <div className="fixed inset-0 bg-grid-pattern opacity-30 pointer-events-none" />
+      {/* Subtle GovTech Pattern Background */}
+      <div className="fixed inset-0 bg-gov-pattern opacity-60 pointer-events-none" />
 
       {/* Ephemeral Toast Alert */}
       {purgeToastVisible && (
-        <div className="fixed bottom-6 right-6 z-50 bg-stone-900/90 text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 text-xs font-semibold border border-white/10 backdrop-blur-md animate-fade-in">
-          <Check className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Session memory cleared.</span>
+        <div className="fixed bottom-6 right-6 z-50 bg-[#0c2340] text-white px-4 py-2.5 rounded-xl shadow-2xl flex items-center gap-2 text-xs font-semibold border border-slate-700 animate-fade-in">
+          <Check className="w-4 h-4 text-emerald-400" />
+          <span>Session memory cleared. Client storage purged.</span>
         </div>
       )}
 
-      {/* Floating Island Header */}
+      {/* Sovereign Header */}
       <Header
         currentWorkflowId={selectedWorkflowId}
         onSelectWorkflow={handleSelectWorkflow}
@@ -222,16 +222,16 @@ export default function Home() {
         </main>
       )}
 
-      {/* Sleek Minimalist Footer */}
-      <footer className="border-t border-white/8 bg-[#09090b]/80 backdrop-blur-md py-6 text-xs text-stone-400 relative z-10">
+      {/* Sovereign GovTech Footer */}
+      <footer className="border-t border-slate-200 bg-white/90 backdrop-blur-md py-6 text-xs text-slate-500 relative z-10">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-white tracking-tight">Document Harmony</span>
-            <span className="text-stone-600">•</span>
-            <span>Indian Official Record Consistency Engine</span>
+            <span className="font-extrabold text-[#0c2340] tracking-tight">Document Harmony</span>
+            <span className="text-slate-300">•</span>
+            <span>Indian Official Record Consistency & Precedence Engine</span>
           </div>
-          <div className="text-[11px] text-stone-400 font-mono">
-            In-Memory Client Diagnostic • 0-Day Retention
+          <div className="text-[11px] text-slate-500 font-mono">
+            Digital Public Infrastructure Spec • 0-Day Client RAM Retention
           </div>
         </div>
       </footer>

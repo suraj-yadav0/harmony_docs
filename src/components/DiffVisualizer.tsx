@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { FieldComparisonResult } from '@/types';
-import { Terminal } from 'lucide-react';
+import { SplitSquareVertical, FileText, AlertCircle } from 'lucide-react';
 
 interface DiffVisualizerProps {
   fieldResult: FieldComparisonResult;
@@ -13,92 +13,102 @@ export const DiffVisualizer: React.FC<DiffVisualizerProps> = ({ fieldResult }) =
   if (!tokenDiffs || tokenDiffs.length === 0) return null;
 
   return (
-    <div className="rounded-2xl p-1 bg-white/[0.04] border border-white/8 overflow-hidden text-xs">
-      <div className="rounded-xl bg-[#0d0d10] overflow-hidden">
-        
-        {/* Header */}
-        <div className="px-4 py-2.5 bg-white/[0.02] border-b border-white/6 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Terminal className="w-3.5 h-3.5 text-stone-400" />
-            <span className="font-bold text-white tracking-tight">
-              Token Alignment Matrix: {fieldResult.fieldLabel}
-            </span>
-          </div>
-          <span className="text-[10px] font-mono uppercase tracking-wider text-stone-400 px-2 py-0.5 rounded bg-white/[0.04] border border-white/6">
-            {fieldResult.technicalDetails.differenceType.replace('_', ' ')}
+    <div className="rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden text-xs">
+      
+      {/* Header */}
+      <div className="px-5 py-3.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <SplitSquareVertical className="w-4 h-4 text-[#0c2340]" />
+          <span className="font-extrabold text-slate-900 tracking-tight">
+            Character & Token Alignment Matrix: {fieldResult.fieldLabel}
           </span>
         </div>
+        <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-700 px-2.5 py-0.5 rounded-full bg-white border border-slate-200 shadow-2xs">
+          {fieldResult.technicalDetails.differenceType.replace('_', ' ')}
+        </span>
+      </div>
 
-        {/* Breakdown */}
-        <div className="p-4 space-y-2.5 font-mono">
-          {tokenDiffs.map((item) => {
-            return (
-              <div
-                key={item.docType}
-                className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-2.5 bg-white/[0.02] rounded-lg border border-white/5"
-              >
-                <span className="text-stone-400 sm:w-44 shrink-0 font-sans font-medium text-xs">
+      {/* Breakdown */}
+      <div className="p-5 space-y-3 font-mono">
+        {tokenDiffs.map((item) => {
+          return (
+            <div
+              key={item.docType}
+              className="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 p-3 bg-slate-50/70 rounded-xl border border-slate-200/80"
+            >
+              <div className="flex items-center gap-2 sm:w-48 shrink-0">
+                <FileText className="w-3.5 h-3.5 text-slate-500" />
+                <span className="text-slate-800 font-sans font-bold text-xs">
                   {item.docTitle}:
                 </span>
+              </div>
 
-                <div className="flex flex-wrap items-center gap-1.5 flex-1">
-                  {item.tokens.map((token, idx) => {
-                    if (token.type === 'match') {
-                      return (
-                        <span
-                          key={idx}
-                          className="px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-300 border border-emerald-500/30 font-semibold"
-                        >
-                          {token.text}
-                        </span>
-                      );
-                    }
-                    if (token.type === 'abbreviated') {
-                      return (
-                        <span
-                          key={idx}
-                          className="px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-300 border border-amber-500/30 font-semibold"
-                          title="Abbreviated Initial"
-                        >
-                          {token.text} <span className="text-[9px] font-sans opacity-70 uppercase">[abbrev]</span>
-                        </span>
-                      );
-                    }
-                    if (token.type === 'changed' || token.type === 'inserted') {
-                      return (
-                        <span
-                          key={idx}
-                          className="px-2 py-0.5 rounded-md bg-rose-500/15 text-rose-300 border border-rose-500/30 font-semibold"
-                          title="Spelling variation"
-                        >
-                          {token.text} <span className="text-[9px] font-sans opacity-70 uppercase">[diff]</span>
-                        </span>
-                      );
-                    }
+              <div className="flex flex-wrap items-center gap-1.5 flex-1">
+                {item.tokens.map((token, idx) => {
+                  if (token.type === 'match') {
                     return (
-                      <span key={idx} className="text-stone-300">
+                      <span
+                        key={idx}
+                        className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 font-bold shadow-2xs"
+                      >
                         {token.text}
                       </span>
                     );
-                  })}
-                </div>
+                  }
+                  if (token.type === 'abbreviated') {
+                    return (
+                      <span
+                        key={idx}
+                        className="px-2.5 py-1 rounded-lg bg-amber-100 text-amber-950 border border-amber-300 font-bold shadow-2xs flex items-center gap-1"
+                        title="Abbreviated Initial detected"
+                      >
+                        <span>{token.text}</span>
+                        <span className="text-[9px] font-sans font-black bg-amber-300 text-amber-950 px-1 rounded uppercase">
+                          ABBREV
+                        </span>
+                      </span>
+                    );
+                  }
+                  if (token.type === 'changed' || token.type === 'inserted') {
+                    return (
+                      <span
+                        key={idx}
+                        className="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-900 border border-rose-300 font-bold shadow-2xs flex items-center gap-1"
+                        title="Spelling variation detected"
+                      >
+                        <span>{token.text}</span>
+                        <span className="text-[9px] font-sans font-black bg-rose-200 text-rose-900 px-1 rounded uppercase">
+                          DIFF
+                        </span>
+                      </span>
+                    );
+                  }
+                  return (
+                    <span key={idx} className="text-slate-700 px-1">
+                      {token.text}
+                    </span>
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
+            </div>
+          );
+        })}
+      </div>
 
-        {/* Footer Insight */}
-        <div className="px-4 py-2.5 bg-white/[0.02] text-[11px] text-stone-400 border-t border-white/6 leading-relaxed">
-          <strong className="text-stone-200">Precedence Note:</strong>{' '}
+      {/* Footer Insight */}
+      <div className="px-5 py-3 bg-slate-50/70 text-xs text-slate-600 border-t border-slate-200 flex items-start gap-2 leading-relaxed font-sans">
+        <AlertCircle className="w-4 h-4 text-[#0c2340] shrink-0 mt-0.5" />
+        <div>
+          <strong className="text-slate-900 font-bold">Regulatory Guidance:</strong>{' '}
           {fieldResult.technicalDetails.differenceType === 'abbreviation' &&
-            'Single-letter initials on secondary records trigger automated linking rejections on Income Tax and EPFO portals.'}
+            'Single-letter initials on secondary records will fail exact match verification on Income Tax and EPFO portals. Standardize to full expanded name.'}
           {fieldResult.technicalDetails.differenceType === 'spelling_variation' &&
-            'A character spelling variance was detected. Standardize records to the authoritative anchor to pass database validation.'}
+            'A character spelling variance (edit distance = 1) was detected. Update non-anchor records to mirror the authoritative anchor.'}
           {fieldResult.technicalDetails.differenceType === 'exact_match' &&
             'All records are character-for-character consistent across normalized representations.'}
         </div>
-
       </div>
+
     </div>
   );
 };

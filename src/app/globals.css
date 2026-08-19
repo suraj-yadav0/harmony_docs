@@ -1,17 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #09090b;
-  --foreground: #f4f4f5;
-  --surface: #121215;
-  --surface-raised: #18181c;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.15);
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --surface: #ffffff;
+  --surface-subtle: #f1f5f9;
+  --ashoka-navy: #0c2340;
+  --ashoka-navy-light: #16375f;
+  --tiranga-saffron: #f97316;
+  --tiranga-green: #059669;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
 }
 
 body {
-  background-color: #09090b;
-  color: #f4f4f5;
+  background-color: var(--background);
+  color: var(--foreground);
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,24 +27,18 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Subtle architectural grid pattern */
-.bg-grid-pattern {
-  background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-  background-size: 32px 32px;
+/* Subtle architectural Indian GovTech pattern */
+.bg-gov-pattern {
+  background-color: #f8fafc;
+  background-image: radial-gradient(#cbd5e1 0.75px, transparent 0.75px),
+                    radial-gradient(#cbd5e1 0.75px, #f8fafc 0.75px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
 }
 
-/* Double-bezel hardware styling utility */
-.hardware-shell {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px -4px rgba(0, 0, 0, 0.5);
-}
-
-.hardware-core {
-  background: #111114;
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+/* Official Tricolor ribbon */
+.tricolor-ribbon {
+  background: linear-gradient(90deg, #f97316 0%, #f97316 33.33%, #ffffff 33.33%, #ffffff 66.66%, #059669 66.66%, #059669 100%);
 }
 
 /* Clean minimal scrollbars */
@@ -54,12 +52,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #27272a;
+  background: #cbd5e1;
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #3f3f46;
+  background: #94a3b8;
 }
 
 @keyframes fadeIn {
@@ -74,7 +72,7 @@ body {
 }
 
 .animate-fade-in {
-  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @media print {

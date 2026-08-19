@@ -21,27 +21,27 @@ export const AadhaarCardPreview: React.FC<DocumentPreviewProps> = ({ document, i
   return (
     <div
       onClick={onSelect}
-      className={`relative rounded-2xl overflow-hidden transition-all duration-300 select-none cursor-pointer border ${
+      className={`relative rounded-2xl overflow-hidden transition-all duration-300 select-none cursor-pointer bg-white shadow-xs border ${
         isActive
-          ? 'ring-2 ring-emerald-400 border-emerald-400/80 shadow-[0_0_30px_rgba(52,211,153,0.2)]'
-          : 'border-white/10 hover:border-white/20 bg-gradient-to-b from-stone-900 to-[#121216]'
+          ? 'ring-2 ring-emerald-600 border-emerald-600 shadow-md scale-[1.01]'
+          : 'border-slate-200/90 hover:border-slate-300 hover:shadow-xs'
       }`}
     >
-      {/* Top Tricolor Accent Ribbon */}
-      <div className="h-1.5 w-full bg-gradient-to-r from-orange-500 via-white to-emerald-600" />
+      {/* Top Tricolor Ribbon */}
+      <div className="h-1.5 w-full tricolor-ribbon" />
 
-      <div className="p-4 sm:p-5 text-white space-y-4">
+      <div className="p-4 sm:p-5 text-slate-800 space-y-4">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-white/10 pb-2.5">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-2.5">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-red-600/20 border border-red-500/40 flex items-center justify-center text-[10px] font-black text-red-400">
+            <div className="w-7 h-7 rounded-full bg-red-50 border border-red-200 flex items-center justify-center text-xs font-black text-red-600">
               आ
             </div>
             <div>
-              <p className="text-[10px] font-bold tracking-wider uppercase text-stone-300 font-sans">
+              <p className="text-[10px] font-extrabold tracking-wider uppercase text-slate-900 font-sans">
                 भारत सरकार / Government of India
               </p>
-              <p className="text-[9px] font-mono text-stone-400">
+              <p className="text-[9px] font-mono text-slate-500 font-medium">
                 Unique Identification Authority of India (UIDAI)
               </p>
             </div>
@@ -49,12 +49,12 @@ export const AadhaarCardPreview: React.FC<DocumentPreviewProps> = ({ document, i
 
           <div className="flex items-center gap-1.5">
             {isUploaded ? (
-              <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30">
-                <CheckCircle2 className="w-3 h-3" /> VERIFIED
+              <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                <CheckCircle2 className="w-3 h-3 text-emerald-600" /> ATTACHED
               </span>
             ) : (
-              <span className="text-[10px] font-mono text-stone-500 bg-white/5 px-2 py-0.5 rounded-full">
-                EMPTY
+              <span className="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full font-medium">
+                PENDING
               </span>
             )}
           </div>
@@ -63,10 +63,10 @@ export const AadhaarCardPreview: React.FC<DocumentPreviewProps> = ({ document, i
         {/* Body with Photo Box and Details */}
         <div className="flex gap-4 items-center">
           {/* Photo Placeholder */}
-          <div className="w-16 h-20 rounded-lg bg-stone-800 border border-white/15 flex flex-col items-center justify-center shrink-0 relative overflow-hidden">
-            <div className="w-7 h-7 rounded-full bg-stone-700 mt-2" />
-            <div className="w-12 h-10 rounded-t-full bg-stone-700 mt-1" />
-            <div className="absolute bottom-0 inset-x-0 bg-stone-900/90 text-[8px] font-mono text-stone-400 text-center py-0.5">
+          <div className="w-16 h-20 rounded-xl bg-slate-100 border border-slate-200 flex flex-col items-center justify-center shrink-0 relative overflow-hidden shadow-2xs">
+            <div className="w-7 h-7 rounded-full bg-slate-300 mt-2" />
+            <div className="w-12 h-10 rounded-t-full bg-slate-300 mt-1" />
+            <div className="absolute bottom-0 inset-x-0 bg-slate-900 text-[8px] font-mono text-white text-center py-0.5 font-bold">
               PHOTO
             </div>
           </div>
@@ -74,39 +74,39 @@ export const AadhaarCardPreview: React.FC<DocumentPreviewProps> = ({ document, i
           {/* Extracted Details */}
           <div className="flex-1 min-w-0 space-y-1.5 font-sans">
             <div>
-              <span className="text-[9px] uppercase font-mono tracking-wider text-stone-400">Name / नाम</span>
-              <p className="font-bold text-xs sm:text-sm text-white font-mono tracking-wide truncate">
+              <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">Name / नाम</span>
+              <p className="font-extrabold text-xs sm:text-sm text-slate-950 font-mono tracking-wide truncate">
                 {name}
               </p>
             </div>
 
             <div className="grid grid-cols-2 gap-2 text-xs">
               <div>
-                <span className="text-[9px] uppercase font-mono tracking-wider text-stone-400">DOB / जन्म तिथि</span>
-                <p className="font-mono text-xs font-semibold text-stone-200">{dob}</p>
+                <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">DOB / जन्म तिथि</span>
+                <p className="font-mono text-xs font-bold text-slate-800">{dob}</p>
               </div>
               <div>
-                <span className="text-[9px] uppercase font-mono tracking-wider text-stone-400">Gender / लिंग</span>
-                <p className="font-mono text-xs font-semibold text-stone-200">{gender}</p>
+                <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">Gender / लिंग</span>
+                <p className="font-mono text-xs font-bold text-slate-800">{gender}</p>
               </div>
             </div>
           </div>
 
           {/* Secure QR Glyph */}
-          <div className="hidden sm:flex flex-col items-center justify-center w-14 h-14 rounded-lg bg-stone-800 border border-white/10 p-1 shrink-0 text-stone-400">
-            <QrCode className="w-10 h-10 text-stone-300" />
-            <span className="text-[7px] font-mono mt-0.5">SECURE QR</span>
+          <div className="hidden sm:flex flex-col items-center justify-center w-14 h-14 rounded-xl bg-slate-50 border border-slate-200 p-1 shrink-0 text-slate-700 shadow-2xs">
+            <QrCode className="w-10 h-10 text-slate-800" />
+            <span className="text-[7px] font-mono font-bold mt-0.5 text-slate-500">UIDAI QR</span>
           </div>
         </div>
 
         {/* Footer 12-Digit Masked ID */}
-        <div className="pt-2 border-t border-white/10 flex items-center justify-between">
+        <div className="pt-2 border-t border-slate-100 flex items-center justify-between bg-slate-50/70 p-2.5 rounded-xl border border-slate-100">
           <div className="text-center w-full">
-            <span className="font-mono font-bold text-sm sm:text-base tracking-[0.25em] text-emerald-400">
+            <span className="font-mono font-black text-sm sm:text-base tracking-[0.25em] text-[#0c2340]">
               {aadhaarNo}
             </span>
-            <p className="text-[9px] font-sans text-stone-400 mt-0.5">
-              मेरा <strong className="text-stone-300">आधार</strong>, मेरी पहचान (Proof of Identity)
+            <p className="text-[9px] font-sans font-medium text-slate-500 mt-0.5">
+              मेरा <strong className="text-slate-800">आधार</strong>, मेरी पहचान (Biometric Proof of Identity)
             </p>
           </div>
         </div>
@@ -125,27 +125,27 @@ export const PanCardPreview: React.FC<DocumentPreviewProps> = ({ document, isAct
   return (
     <div
       onClick={onSelect}
-      className={`relative rounded-2xl overflow-hidden transition-all duration-300 select-none cursor-pointer border ${
+      className={`relative rounded-2xl overflow-hidden transition-all duration-300 select-none cursor-pointer bg-white shadow-xs border ${
         isActive
-          ? 'ring-2 ring-blue-400 border-blue-400/80 shadow-[0_0_30px_rgba(96,165,250,0.2)]'
-          : 'border-white/10 hover:border-white/20 bg-gradient-to-b from-[#0c1424] to-[#090e1a]'
+          ? 'ring-2 ring-blue-600 border-blue-600 shadow-md scale-[1.01]'
+          : 'border-slate-200/90 hover:border-slate-300 hover:shadow-xs'
       }`}
     >
       {/* Top Navy Ribbon */}
-      <div className="h-1.5 w-full bg-gradient-to-r from-blue-600 via-indigo-400 to-sky-500" />
+      <div className="h-1.5 w-full bg-gradient-to-r from-blue-700 via-indigo-600 to-sky-600" />
 
-      <div className="p-4 sm:p-5 text-white space-y-4">
+      <div className="p-4 sm:p-5 text-slate-800 space-y-4">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-blue-500/20 pb-2.5">
+        <div className="flex items-center justify-between border-b border-blue-100 pb-2.5">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-blue-500/20 border border-blue-400/40 flex items-center justify-center text-[10px] font-black text-blue-300">
+            <div className="w-7 h-7 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center text-xs font-black text-blue-700">
               IT
             </div>
             <div>
-              <p className="text-[10px] font-bold tracking-wider uppercase text-blue-200 font-sans">
+              <p className="text-[10px] font-extrabold tracking-wider uppercase text-blue-950 font-sans">
                 आयकर विभाग / INCOME TAX DEPARTMENT
               </p>
-              <p className="text-[9px] font-mono text-blue-400/80">
+              <p className="text-[9px] font-mono text-blue-700/80 font-medium">
                 GOVT. OF INDIA / भारत सरकार
               </p>
             </div>
@@ -153,12 +153,12 @@ export const PanCardPreview: React.FC<DocumentPreviewProps> = ({ document, isAct
 
           <div className="flex items-center gap-1.5">
             {isUploaded ? (
-              <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-blue-300 bg-blue-500/15 px-2 py-0.5 rounded-full border border-blue-400/30">
-                <CheckCircle2 className="w-3 h-3" /> VERIFIED
+              <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-blue-800 bg-blue-50 px-2 py-0.5 rounded-full border border-blue-200">
+                <CheckCircle2 className="w-3 h-3 text-blue-600" /> ATTACHED
               </span>
             ) : (
-              <span className="text-[10px] font-mono text-stone-500 bg-white/5 px-2 py-0.5 rounded-full">
-                EMPTY
+              <span className="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full font-medium">
+                PENDING
               </span>
             )}
           </div>
@@ -167,10 +167,10 @@ export const PanCardPreview: React.FC<DocumentPreviewProps> = ({ document, isAct
         {/* Body with Photo, Details, and Hologram Strip */}
         <div className="flex gap-4 items-center">
           {/* Photo Placeholder */}
-          <div className="w-16 h-20 rounded-lg bg-slate-900 border border-blue-500/30 flex flex-col items-center justify-center shrink-0 relative overflow-hidden">
-            <div className="w-7 h-7 rounded-full bg-slate-700 mt-2" />
-            <div className="w-12 h-10 rounded-t-full bg-slate-700 mt-1" />
-            <div className="absolute bottom-0 inset-x-0 bg-blue-950 text-[8px] font-mono text-blue-300 text-center py-0.5">
+          <div className="w-16 h-20 rounded-xl bg-blue-50/50 border border-blue-200 flex flex-col items-center justify-center shrink-0 relative overflow-hidden shadow-2xs">
+            <div className="w-7 h-7 rounded-full bg-blue-200 mt-2" />
+            <div className="w-12 h-10 rounded-t-full bg-blue-200 mt-1" />
+            <div className="absolute bottom-0 inset-x-0 bg-blue-900 text-[8px] font-mono text-white text-center py-0.5 font-bold">
               PHOTO
             </div>
           </div>
@@ -178,40 +178,40 @@ export const PanCardPreview: React.FC<DocumentPreviewProps> = ({ document, isAct
           {/* Details */}
           <div className="flex-1 min-w-0 space-y-1 font-sans">
             <div>
-              <span className="text-[9px] uppercase font-mono tracking-wider text-blue-300/70">Name / नाम</span>
-              <p className="font-bold text-xs sm:text-sm text-white font-mono tracking-wide truncate">
+              <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">Name / नाम</span>
+              <p className="font-extrabold text-xs sm:text-sm text-slate-950 font-mono tracking-wide truncate">
                 {name}
               </p>
             </div>
 
             <div>
-              <span className="text-[9px] uppercase font-mono tracking-wider text-blue-300/70">Father&apos;s Name / पिता का नाम</span>
-              <p className="font-mono text-xs text-stone-300 truncate">{fatherName}</p>
+              <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">Father&apos;s Name / पिता का नाम</span>
+              <p className="font-mono text-xs text-slate-700 font-semibold truncate">{fatherName}</p>
             </div>
 
             <div className="flex items-center justify-between text-xs pt-0.5">
               <div>
-                <span className="text-[9px] uppercase font-mono tracking-wider text-blue-300/70">DOB</span>
-                <p className="font-mono text-xs font-semibold text-stone-200">{dob}</p>
+                <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">DOB</span>
+                <p className="font-mono text-xs font-bold text-slate-900">{dob}</p>
               </div>
             </div>
           </div>
 
-          {/* Hologram / Signature Simulator */}
-          <div className="hidden sm:flex flex-col items-center justify-center w-14 h-16 rounded-lg bg-gradient-to-tr from-amber-500/20 via-sky-400/20 to-purple-500/20 border border-white/20 p-1 shrink-0 text-stone-300 text-center">
-            <Shield className="w-5 h-5 text-amber-300 mb-1" />
-            <span className="text-[7px] font-mono uppercase tracking-tight text-stone-300">HOLOGRAM</span>
+          {/* Hologram Simulator */}
+          <div className="hidden sm:flex flex-col items-center justify-center w-14 h-16 rounded-xl bg-gradient-to-tr from-amber-100 via-sky-100 to-indigo-100 border border-amber-200/80 p-1 shrink-0 text-slate-700 text-center shadow-2xs">
+            <Shield className="w-5 h-5 text-amber-600 mb-1" />
+            <span className="text-[7px] font-mono font-bold uppercase tracking-tight text-slate-700">HOLOGRAM</span>
           </div>
         </div>
 
         {/* Footer 10-Digit PAN */}
-        <div className="pt-2 border-t border-blue-500/20 flex items-center justify-between">
+        <div className="pt-2 border-t border-blue-100 flex items-center justify-between bg-blue-50/50 p-2.5 rounded-xl border border-blue-100">
           <div className="text-center w-full">
-            <span className="font-mono font-black text-sm sm:text-base tracking-[0.25em] text-blue-300">
+            <span className="font-mono font-black text-sm sm:text-base tracking-[0.25em] text-blue-950">
               {panNo}
             </span>
-            <p className="text-[9px] font-sans text-blue-400/80 mt-0.5">
-              Permanent Account Number Card
+            <p className="text-[9px] font-sans font-medium text-blue-700/90 mt-0.5">
+              Permanent Account Number Card (Income Tax Act, 1961)
             </p>
           </div>
         </div>
@@ -230,32 +230,32 @@ export const MarksheetPreview: React.FC<DocumentPreviewProps> = ({ document, isA
   return (
     <div
       onClick={onSelect}
-      className={`relative rounded-2xl overflow-hidden transition-all duration-300 select-none cursor-pointer border ${
+      className={`relative rounded-2xl overflow-hidden transition-all duration-300 select-none cursor-pointer bg-white shadow-xs border ${
         isActive
-          ? 'ring-2 ring-purple-400 border-purple-400/80 shadow-[0_0_30px_rgba(192,132,252,0.2)]'
-          : 'border-white/10 hover:border-white/20 bg-gradient-to-b from-[#170e24] to-[#100a1a]'
+          ? 'ring-2 ring-purple-600 border-purple-600 shadow-md scale-[1.01]'
+          : 'border-slate-200/90 hover:border-slate-300 hover:shadow-xs'
       }`}
     >
-      <div className="h-1.5 w-full bg-gradient-to-r from-purple-500 via-pink-400 to-indigo-500" />
+      <div className="h-1.5 w-full bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600" />
 
-      <div className="p-4 sm:p-5 text-white space-y-4">
+      <div className="p-4 sm:p-5 text-slate-800 space-y-4">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-purple-500/20 pb-2.5">
+        <div className="flex items-center justify-between border-b border-purple-100 pb-2.5">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-purple-500/20 border border-purple-400/40 flex items-center justify-center text-[10px] font-black text-purple-300">
-              <Award className="w-3.5 h-3.5" />
+            <div className="w-7 h-7 rounded-lg bg-purple-50 border border-purple-200 flex items-center justify-center text-xs font-black text-purple-700">
+              <Award className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-[10px] font-bold tracking-wider uppercase text-purple-200 font-sans">
+              <p className="text-[10px] font-extrabold tracking-wider uppercase text-purple-950 font-sans">
                 CENTRAL BOARD OF SECONDARY EDUCATION
               </p>
-              <p className="text-[9px] font-mono text-purple-400/80">
+              <p className="text-[9px] font-mono text-purple-700/80 font-medium">
                 CLASS X SECONDARY SCHOOL EXAMINATION CERTIFICATE
               </p>
             </div>
           </div>
 
-          <span className="text-[10px] font-mono font-bold text-purple-300 bg-purple-500/15 px-2 py-0.5 rounded-full border border-purple-400/30">
+          <span className="text-[10px] font-mono font-bold text-purple-800 bg-purple-50 px-2 py-0.5 rounded-full border border-purple-200">
             LEGAL ANCHOR (P0)
           </span>
         </div>
@@ -263,26 +263,26 @@ export const MarksheetPreview: React.FC<DocumentPreviewProps> = ({ document, isA
         {/* Details Table */}
         <div className="grid grid-cols-2 gap-3 text-xs font-sans">
           <div>
-            <span className="text-[9px] uppercase font-mono tracking-wider text-purple-300/70">Candidate Name</span>
-            <p className="font-bold text-white font-mono truncate">{name}</p>
+            <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">Candidate Name</span>
+            <p className="font-extrabold text-slate-950 font-mono truncate">{name}</p>
           </div>
           <div>
-            <span className="text-[9px] uppercase font-mono tracking-wider text-purple-300/70">Roll / Cert No.</span>
-            <p className="font-mono text-purple-200 font-semibold">{certNo}</p>
+            <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">Roll / Cert No.</span>
+            <p className="font-mono text-purple-950 font-bold">{certNo}</p>
           </div>
           <div>
-            <span className="text-[9px] uppercase font-mono tracking-wider text-purple-300/70">Father&apos;s Name</span>
-            <p className="font-mono text-stone-300 truncate">{fatherName}</p>
+            <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">Father&apos;s Name</span>
+            <p className="font-mono text-slate-700 font-semibold truncate">{fatherName}</p>
           </div>
           <div>
-            <span className="text-[9px] uppercase font-mono tracking-wider text-purple-300/70">Date of Birth (DOB)</span>
-            <p className="font-mono font-bold text-emerald-400">{dob}</p>
+            <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">Date of Birth (DOB)</span>
+            <p className="font-mono font-black text-emerald-700">{dob}</p>
           </div>
         </div>
 
-        <div className="pt-2 border-t border-purple-500/20 flex items-center justify-between text-[10px] font-mono text-stone-400">
-          <span>Supreme Court Precedence: Primary Anchor for DOB</span>
-          {isUploaded && <span className="text-purple-300 font-bold">VERIFIED</span>}
+        <div className="pt-2 border-t border-purple-100 flex items-center justify-between text-[10px] font-mono text-slate-500 bg-purple-50/40 p-2 rounded-xl">
+          <span>Supreme Court Precedence: Conclusive DOB Proof</span>
+          {isUploaded && <span className="text-purple-800 font-bold">VERIFIED</span>}
         </div>
       </div>
     </div>
@@ -298,32 +298,32 @@ export const BankPassbookPreview: React.FC<DocumentPreviewProps> = ({ document, 
   return (
     <div
       onClick={onSelect}
-      className={`relative rounded-2xl overflow-hidden transition-all duration-300 select-none cursor-pointer border ${
+      className={`relative rounded-2xl overflow-hidden transition-all duration-300 select-none cursor-pointer bg-white shadow-xs border ${
         isActive
-          ? 'ring-2 ring-teal-400 border-teal-400/80 shadow-[0_0_30px_rgba(45,212,191,0.2)]'
-          : 'border-white/10 hover:border-white/20 bg-gradient-to-b from-[#0c1c1a] to-[#091413]'
+          ? 'ring-2 ring-teal-600 border-teal-600 shadow-md scale-[1.01]'
+          : 'border-slate-200/90 hover:border-slate-300 hover:shadow-xs'
       }`}
     >
-      <div className="h-1.5 w-full bg-gradient-to-r from-teal-500 via-emerald-400 to-cyan-500" />
+      <div className="h-1.5 w-full bg-gradient-to-r from-teal-600 via-emerald-600 to-cyan-600" />
 
-      <div className="p-4 sm:p-5 text-white space-y-4">
+      <div className="p-4 sm:p-5 text-slate-800 space-y-4">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-teal-500/20 pb-2.5">
+        <div className="flex items-center justify-between border-b border-teal-100 pb-2.5">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md bg-teal-500/20 border border-teal-400/40 flex items-center justify-center text-[10px] font-black text-teal-300">
-              <Building className="w-3.5 h-3.5" />
+            <div className="w-7 h-7 rounded-lg bg-teal-50 border border-teal-200 flex items-center justify-center text-xs font-black text-teal-700">
+              <Building className="w-4 h-4" />
             </div>
             <div>
-              <p className="text-[10px] font-bold tracking-wider uppercase text-teal-200 font-sans">
+              <p className="text-[10px] font-extrabold tracking-wider uppercase text-teal-950 font-sans">
                 {bankName}
               </p>
-              <p className="text-[9px] font-mono text-teal-400/80">
+              <p className="text-[9px] font-mono text-teal-700/80 font-medium">
                 SAVINGS BANK ACCOUNT PASSBOOK / STATEMENT
               </p>
             </div>
           </div>
 
-          <span className="text-[10px] font-mono font-bold text-teal-300 bg-teal-500/15 px-2 py-0.5 rounded-full border border-teal-400/30">
+          <span className="text-[10px] font-mono font-bold text-teal-800 bg-teal-50 px-2 py-0.5 rounded-full border border-teal-200">
             RBI KYC SPEC
           </span>
         </div>
@@ -331,18 +331,18 @@ export const BankPassbookPreview: React.FC<DocumentPreviewProps> = ({ document, 
         {/* Details */}
         <div className="grid grid-cols-2 gap-3 text-xs font-sans">
           <div>
-            <span className="text-[9px] uppercase font-mono tracking-wider text-teal-300/70">Account Holder Name</span>
-            <p className="font-bold text-white font-mono truncate">{name}</p>
+            <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">Account Holder Name</span>
+            <p className="font-extrabold text-slate-950 font-mono truncate">{name}</p>
           </div>
           <div>
-            <span className="text-[9px] uppercase font-mono tracking-wider text-teal-300/70">Account Number (Masked)</span>
-            <p className="font-mono text-teal-200 font-semibold">{accountNo}</p>
+            <span className="text-[9px] uppercase font-mono font-bold tracking-wider text-slate-400">Account Number (Masked)</span>
+            <p className="font-mono text-teal-950 font-bold">{accountNo}</p>
           </div>
         </div>
 
-        <div className="pt-2 border-t border-teal-500/20 flex items-center justify-between text-[10px] font-mono text-stone-400">
+        <div className="pt-2 border-t border-teal-100 flex items-center justify-between text-[10px] font-mono text-slate-500 bg-teal-50/40 p-2 rounded-xl">
           <span>IFSC: SBIN0001234 • Core Banking Verified</span>
-          {isUploaded && <span className="text-teal-300 font-bold">ATTACHED</span>}
+          {isUploaded && <span className="text-teal-800 font-bold">ATTACHED</span>}
         </div>
       </div>
     </div>

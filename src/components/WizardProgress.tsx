@@ -16,11 +16,11 @@ interface WizardProgressProps {
 }
 
 const STEPS = [
-  { step: 1, label: 'Intent', icon: Compass },
-  { step: 2, label: 'Proofs', icon: FileCheck },
-  { step: 3, label: 'OCR Review', icon: ScanEye },
-  { step: 4, label: 'Diagnostics', icon: Activity },
-  { step: 5, label: 'Roadmap', icon: GitMerge },
+  { step: 1, label: 'Purpose', icon: Compass },
+  { step: 2, label: 'Document Proofs', icon: FileCheck },
+  { step: 3, label: 'OCR Verification', icon: ScanEye },
+  { step: 4, label: 'Diagnostics & Diffs', icon: Activity },
+  { step: 5, label: 'Official Roadmap', icon: GitMerge },
 ];
 
 export const WizardProgress: React.FC<WizardProgressProps> = ({
@@ -29,9 +29,9 @@ export const WizardProgress: React.FC<WizardProgressProps> = ({
   maxStepReached,
 }) => {
   return (
-    <nav aria-label="Verification progress" className="w-full px-4 sm:px-6 my-6">
-      <div className="max-w-5xl mx-auto p-1 rounded-2xl bg-white/[0.03] border border-white/8 backdrop-blur-md">
-        <div className="grid grid-cols-5 gap-1">
+    <nav aria-label="Verification progress" className="w-full my-6">
+      <div className="max-w-5xl mx-auto p-1.5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+        <div className="grid grid-cols-5 gap-1.5">
           {STEPS.map((item) => {
             const isCurrent = item.step === currentStep;
             const isCompleted = item.step < currentStep;
@@ -45,21 +45,21 @@ export const WizardProgress: React.FC<WizardProgressProps> = ({
                 onClick={() => isClickable && onStepClick(item.step)}
                 className={`group py-2.5 px-2 sm:px-3 rounded-xl transition-all flex items-center justify-center gap-2 select-none ${
                   isCurrent
-                    ? 'bg-white/10 text-white shadow-[inset_0_1px_1px_rgba(255,255,255,0.2)] border border-white/15 font-semibold'
+                    ? 'bg-[#0c2340] text-white shadow-sm font-bold'
                     : isCompleted
-                    ? 'text-stone-300 hover:bg-white/[0.05] cursor-pointer'
+                    ? 'bg-emerald-50 text-emerald-900 border border-emerald-200/80 cursor-pointer font-semibold'
                     : isClickable
-                    ? 'text-stone-400 hover:text-stone-200 hover:bg-white/[0.04] cursor-pointer'
-                    : 'text-stone-600 opacity-40 cursor-not-allowed'
+                    ? 'text-slate-600 hover:text-slate-900 hover:bg-slate-100 cursor-pointer font-medium'
+                    : 'text-slate-400 opacity-50 cursor-not-allowed font-medium'
                 }`}
               >
                 <div
                   className={`w-5 h-5 rounded-md flex items-center justify-center text-[10px] font-mono font-bold transition-colors ${
                     isCurrent
-                      ? 'bg-white text-stone-950 shadow-xs'
+                      ? 'bg-white text-[#0c2340]'
                       : isCompleted
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
-                      : 'bg-white/[0.06] text-stone-400 group-hover:text-white'
+                      ? 'bg-emerald-600 text-white'
+                      : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
                   }`}
                 >
                   {item.step}
@@ -69,7 +69,7 @@ export const WizardProgress: React.FC<WizardProgressProps> = ({
                   {item.label}
                 </span>
                 
-                <Icon className={`w-3.5 h-3.5 md:hidden ${isCurrent ? 'text-white' : 'text-stone-500'}`} />
+                <Icon className={`w-3.5 h-3.5 md:hidden ${isCurrent ? 'text-white' : 'text-slate-400'}`} />
               </button>
             );
           })}

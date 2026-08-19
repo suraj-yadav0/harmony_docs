@@ -38,60 +38,56 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in text-slate-900">
       
       {/* Top Banner */}
-      <div className="rounded-2xl p-1 bg-white/[0.04] border border-white/8">
-        <div className="rounded-xl bg-[#101014] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                Official Correction Sequence
-              </span>
-            </div>
-            <h2 className="text-lg sm:text-xl font-bold text-white mt-1.5 tracking-tight">
-              5. Remediation Roadmap
-            </h2>
-            <p className="text-xs text-stone-400 mt-0.5">
-              Execute steps in prerequisite order to eliminate rejected applications.
-            </p>
+      <div className="rounded-3xl bg-white p-6 sm:p-7 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200">
+              Official Correction Sequence
+            </span>
           </div>
-
-          <button
-            onClick={onExportReport}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-stone-950 hover:bg-stone-200 text-xs font-bold transition-all cursor-pointer select-none shrink-0 shadow-lg"
-          >
-            <Download className="w-4 h-4" />
-            <span>Export PDF Report</span>
-          </button>
+          <h2 className="text-lg sm:text-xl font-black text-[#0c2340] mt-1 tracking-tight">
+            5. Statutory Remediation Roadmap
+          </h2>
+          <p className="text-xs text-slate-600 mt-0.5">
+            Execute steps in prerequisite order to eliminate rejected applications and administrative penalties.
+          </p>
         </div>
+
+        <button
+          onClick={onExportReport}
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#0c2340] text-white hover:bg-[#16375f] text-xs font-bold transition-all cursor-pointer select-none shrink-0 shadow-md"
+        >
+          <Download className="w-4 h-4 text-amber-300" />
+          <span>Export Official PDF Report</span>
+        </button>
       </div>
 
       {/* Steps List */}
       <div className="space-y-4">
         {remediationPlan.length === 0 || overallStatus === 'GREEN' ? (
-          <div className="rounded-2xl p-1 bg-emerald-500/10 border border-emerald-500/20">
-            <div className="rounded-xl bg-[#0f1412] p-8 text-center space-y-3">
-              <div className="w-10 h-10 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
-                <CheckCircle2 className="w-6 h-6" />
-              </div>
-              <h3 className="font-bold text-base text-white">
-                No Record Corrections Required
-              </h3>
-              <p className="text-xs text-stone-300 max-w-md mx-auto leading-relaxed">
-                All records match character-for-character across uploaded proofs. You can proceed with your target linking.
-              </p>
-              <div className="pt-2">
-                <a
-                  href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/bl-link-aadhaar"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-stone-950 text-xs font-bold transition-colors"
-                >
-                  <span>Open Official Income Tax Portal</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-              </div>
+          <div className="rounded-3xl bg-emerald-50/80 border border-emerald-200 p-8 text-center space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mx-auto shadow-xs">
+              <CheckCircle2 className="w-6 h-6" />
+            </div>
+            <h3 className="font-extrabold text-base sm:text-lg text-slate-900">
+              No Document Corrections Required
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto leading-relaxed">
+              All records match character-for-character across uploaded proofs. You can proceed directly with your target application.
+            </p>
+            <div className="pt-2">
+              <a
+                href="https://eportal.incometax.gov.in/iec/foservices/#/pre-login/bl-link-aadhaar"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-colors shadow-xs"
+              >
+                <span>Open Income Tax Portal</span>
+                <ExternalLink className="w-3.5 h-3.5" />
+              </a>
             </div>
           </div>
         ) : (
@@ -101,94 +97,93 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
             return (
               <div
                 key={step.stepNumber}
-                className={`rounded-2xl p-1 transition-all ${
+                className={`rounded-3xl border transition-all p-6 sm:p-7 space-y-4 ${
                   isCompleted
-                    ? 'bg-emerald-500/10 border border-emerald-500/20 opacity-80'
-                    : 'bg-white/[0.04] border border-white/8'
+                    ? 'bg-emerald-50/40 border-emerald-200 shadow-2xs'
+                    : 'bg-white border-slate-200 shadow-sm'
                 }`}
               >
-                <div className="rounded-xl bg-[#111115] p-5 space-y-3">
-                  
-                  {/* Step Header */}
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex items-start gap-3">
-                      <button
-                        onClick={() => toggleStep(step.stepNumber)}
-                        className={`w-7 h-7 rounded-lg flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer shrink-0 ${
-                          isCompleted
-                            ? 'bg-emerald-500 text-stone-950 shadow-xs'
-                            : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
-                        }`}
-                        title={isCompleted ? 'Mark step as pending' : 'Mark step as done'}
-                      >
-                        {isCompleted ? <Check className="w-4 h-4 stroke-[3]" /> : step.stepNumber}
-                      </button>
+                {/* Step Header */}
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-4">
+                    <button
+                      onClick={() => toggleStep(step.stepNumber)}
+                      className={`w-8 h-8 rounded-xl flex items-center justify-center font-mono text-xs font-bold transition-all cursor-pointer shrink-0 ${
+                        isCompleted
+                          ? 'bg-emerald-600 text-white shadow-xs'
+                          : 'bg-[#0c2340] text-white shadow-xs hover:bg-[#16375f]'
+                      }`}
+                      title={isCompleted ? 'Mark step as pending' : 'Mark step as done'}
+                    >
+                      {isCompleted ? <Check className="w-4 h-4 stroke-[3]" /> : step.stepNumber}
+                    </button>
 
-                      <div>
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="text-[10px] font-mono font-bold uppercase text-stone-400 bg-white/[0.04] px-2 py-0.5 rounded border border-white/6">
-                            Target: {step.docTitle}
+                    <div>
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className="text-[10px] font-mono font-bold uppercase text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                          Target Record: {step.docTitle}
+                        </span>
+                        {step.prerequisiteStep !== undefined && (
+                          <span className="text-[10px] font-mono font-bold uppercase text-amber-900 bg-amber-100 px-2 py-0.5 rounded-md border border-amber-300">
+                            Prerequisite: Complete Step {step.prerequisiteStep}
                           </span>
-                          {step.prerequisiteStep !== undefined && (
-                            <span className="text-[10px] font-mono font-bold uppercase text-amber-300 bg-amber-500/20 px-2 py-0.5 rounded border border-amber-500/30">
-                              Prerequisite: Step {step.prerequisiteStep}
-                            </span>
-                          )}
-                        </div>
-                        <h4
-                          className={`text-sm font-bold transition-colors ${
-                            isCompleted ? 'line-through text-stone-500' : 'text-white'
-                          }`}
-                        >
-                          {step.actionTitle}
-                        </h4>
-                        <p className="text-xs text-stone-300 mt-1 leading-relaxed">
-                          {step.reason}
-                        </p>
+                        )}
                       </div>
-                    </div>
-
-                    <div className="text-right text-xs font-mono text-stone-400 shrink-0 hidden sm:flex flex-col gap-1">
-                      <div className="flex items-center gap-1">
-                        <IndianRupee className="w-3 h-3 text-stone-500" />
-                        <span>{step.verifiedFee}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Clock className="w-3 h-3 text-stone-500" />
-                        <span>{step.verifiedTimeline}</span>
-                      </div>
+                      <h4
+                        className={`text-base font-extrabold transition-colors ${
+                          isCompleted ? 'line-through text-slate-400' : 'text-slate-900'
+                        }`}
+                      >
+                        {step.actionTitle}
+                      </h4>
+                      <p className="text-xs sm:text-sm text-slate-600 mt-1 leading-relaxed">
+                        {step.reason}
+                      </p>
                     </div>
                   </div>
 
-                  {/* Required Proofs */}
-                  {step.stepsSummary && step.stepsSummary.length > 0 && (
-                    <div className="p-3 rounded-lg bg-white/[0.02] border border-white/5 text-xs text-stone-300">
-                      <span className="font-semibold text-white block mb-1">Required Action Proofs:</span>
-                      <ul className="list-disc pl-4 space-y-0.5 text-stone-400">
+                  <div className="text-right text-xs font-mono text-slate-600 shrink-0 hidden sm:flex flex-col gap-1">
+                    <div className="flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
+                      <IndianRupee className="w-3.5 h-3.5 text-slate-400" />
+                      <span>{step.verifiedFee}</span>
+                    </div>
+                    <div className="flex items-center gap-1 bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200">
+                      <Clock className="w-3.5 h-3.5 text-slate-400" />
+                      <span>{step.verifiedTimeline}</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Required Proofs & Steps */}
+                {step.stepsSummary && step.stepsSummary.length > 0 && (
+                  <div className="pl-12 text-xs">
+                    <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/90 text-slate-700 space-y-1.5">
+                      <span className="font-bold text-slate-900 block">Required Proofs & Instructions:</span>
+                      <ul className="list-disc pl-4 space-y-1 text-slate-600">
                         {step.stepsSummary.map((item: string, idx: number) => (
                           <li key={idx}>{item}</li>
                         ))}
                       </ul>
                     </div>
-                  )}
-
-                  {/* Portal Action */}
-                  <div className="pt-2 flex items-center justify-between text-xs border-t border-white/6">
-                    <span className="text-stone-500 font-mono text-[11px]">
-                      Authority: {step.authority}
-                    </span>
-                    <a
-                      href={step.officialUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/10 hover:bg-white/15 text-white font-semibold text-xs transition-colors"
-                    >
-                      <span>Open Official Portal</span>
-                      <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
                   </div>
+                )}
 
+                {/* Portal Action */}
+                <div className="pl-12 pt-2 flex items-center justify-between text-xs border-t border-slate-100">
+                  <span className="text-slate-500 font-mono text-[11px]">
+                    Authority: {step.authority}
+                  </span>
+                  <a
+                    href={step.officialUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs transition-colors shadow-2xs"
+                  >
+                    <span>Open Official Portal</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
                 </div>
+
               </div>
             );
           })
@@ -197,35 +192,33 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
 
       {/* Alignment Simulation */}
       {remediationPlan.length > 0 && overallStatus !== 'GREEN' && (
-        <div className="rounded-2xl p-1 bg-gradient-to-b from-indigo-500/20 to-transparent border border-indigo-500/30">
-          <div className="rounded-xl bg-[#0f1018] p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-            <div>
-              <div className="flex items-center gap-2 mb-0.5">
-                <Sparkles className="w-4 h-4 text-indigo-400" />
-                <span className="font-bold text-white text-sm">
-                  Simulate Document Alignment
-                </span>
-              </div>
-              <p className="text-stone-300 leading-relaxed">
-                Preview how recalculation aligns all attributes to 100/100 harmony.
-              </p>
+        <div className="rounded-3xl bg-slate-900 text-white p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-md">
+          <div>
+            <div className="flex items-center gap-2 mb-1">
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span className="font-bold text-sm sm:text-base text-white">
+                Simulate Successful Document Alignment
+              </span>
             </div>
-
-            <button
-              onClick={onSimulateResolvedCorrection}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-stone-950 font-bold text-xs hover:bg-stone-200 transition-all cursor-pointer select-none shrink-0"
-            >
-              <span>Simulate 100% Harmony</span>
-            </button>
+            <p className="text-xs text-slate-300 leading-relaxed max-w-xl">
+              Preview how applying canonical updates resolves all discrepancies and elevates the score to 100/100.
+            </p>
           </div>
+
+          <button
+            onClick={onSimulateResolvedCorrection}
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs shadow-md transition-all cursor-pointer select-none shrink-0"
+          >
+            <span>Simulate 100% Harmony</span>
+          </button>
         </div>
       )}
 
       {/* Footer Navigation */}
-      <div className="pt-4 flex items-center justify-between border-t border-white/8">
+      <div className="pt-4 flex items-center justify-between border-t border-slate-200">
         <button
           onClick={onPrevStep}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-medium text-stone-400 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/8 transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Diagnostics</span>
@@ -233,12 +226,10 @@ export const Step5Remediation: React.FC<Step5RemediationProps> = ({
 
         <button
           onClick={onExportReport}
-          className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-white hover:bg-stone-200 text-stone-950 font-bold text-xs sm:text-sm shadow-xl transition-all cursor-pointer select-none active:scale-[0.98]"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer select-none"
         >
-          <span>Export Summary Report</span>
-          <div className="w-7 h-7 rounded-full bg-stone-950 text-white flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
-            <Download className="w-3.5 h-3.5" />
-          </div>
+          <Download className="w-4 h-4 text-amber-300" />
+          <span>Export Official Summary</span>
         </button>
       </div>
 

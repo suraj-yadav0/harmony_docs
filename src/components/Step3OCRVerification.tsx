@@ -115,33 +115,31 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8 animate-fade-in text-slate-900">
       
       {/* Top Banner */}
-      <div className="rounded-2xl p-1 bg-white/[0.04] border border-white/8">
-        <div className="rounded-xl bg-[#101014] p-5 sm:p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-amber-500/20 text-amber-300 border border-amber-500/30">
-                OCR Verification Gate
-              </span>
-            </div>
-            <h2 className="text-lg sm:text-xl font-bold text-white mt-1.5 tracking-tight">
-              3. Forensic OCR Attribute Review
-            </h2>
-            <p className="text-xs text-stone-400 mt-0.5">
-              Confirm extracted strings match physical records. Fix optical typos before matching.
-            </p>
+      <div className="rounded-3xl bg-white p-6 sm:p-7 border border-slate-200 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-900 border border-amber-200">
+              OCR Verification Gate
+            </span>
           </div>
-
-          <button
-            onClick={handleVerifyAll}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 text-xs font-semibold border border-emerald-500/40 transition-all cursor-pointer select-none shrink-0"
-          >
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-            <span>Confirm All Fields</span>
-          </button>
+          <h2 className="text-lg sm:text-xl font-black text-[#0c2340] mt-1 tracking-tight">
+            3. Forensic OCR Attribute Review
+          </h2>
+          <p className="text-xs text-slate-600 mt-0.5">
+            Confirm that machine-parsed strings strictly mirror physical print. Fix optical misreads before running cross-matching.
+          </p>
         </div>
+
+        <button
+          onClick={handleVerifyAll}
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-emerald-50 hover:bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-300 transition-all cursor-pointer select-none shrink-0"
+        >
+          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+          <span>Confirm All Extracted Fields</span>
+        </button>
       </div>
 
       {/* Extracted Fields by Document */}
@@ -155,129 +153,126 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
           return (
             <div
               key={doc.id}
-              className="rounded-2xl p-1 bg-white/[0.03] border border-white/8 overflow-hidden"
+              className="rounded-2xl bg-white border border-slate-200 shadow-xs overflow-hidden"
             >
-              <div className="rounded-xl bg-[#111115] overflow-hidden">
-                
-                {/* Header */}
-                <div className="px-5 py-3 bg-white/[0.02] border-b border-white/6 flex items-center justify-between">
-                  <div className="flex items-center gap-2.5">
-                    <div className="w-6 h-6 rounded-md bg-white/[0.06] flex items-center justify-center text-stone-300">
-                      <FileText className="w-3.5 h-3.5" />
-                    </div>
-                    <h3 className="font-bold text-xs sm:text-sm text-white">
-                      {doc.title}
-                    </h3>
+              {/* Header */}
+              <div className="px-5 py-3.5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-lg bg-slate-200 text-slate-700 flex items-center justify-center">
+                    <FileText className="w-4 h-4" />
                   </div>
-
-                  <span className="text-[11px] font-mono text-stone-400">
-                    {doc.fileName}
-                  </span>
+                  <h3 className="font-bold text-xs sm:text-sm text-slate-900">
+                    {doc.title}
+                  </h3>
                 </div>
 
-                {/* Fields Table */}
-                <div className="divide-y divide-white/4">
-                  {fieldEntries.map(([fieldName, field]) => {
-                    if (!field) return null;
-                    const fieldKey = `${doc.type}_${fieldName}`;
-                    const isEditing = editingKey === fieldKey;
-                    const isLow = field.rawConfidence < 0.85 && !field.userEdited;
-
-                    return (
-                      <div
-                        key={fieldName}
-                        className="p-4 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
-                      >
-                        {/* Label & Confidence */}
-                        <div className="sm:w-52 shrink-0">
-                          <span className="font-medium text-stone-200">
-                            {friendlyLabels[fieldName] || fieldName}
-                          </span>
-                          <div className="flex items-center gap-2 mt-0.5">
-                            <span className="text-[10px] font-mono text-stone-400">
-                              {(field.rawConfidence * 100).toFixed(0)}% confidence
-                            </span>
-                            {isLow && (
-                              <span className="text-[10px] font-mono text-amber-400 bg-amber-500/20 px-1.5 py-0.2 rounded border border-amber-500/30">
-                                Low confidence
-                              </span>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Value / Quick Editor */}
-                        <div className="flex-1 min-w-0">
-                          {isEditing ? (
-                            <div className="flex items-center gap-2">
-                              <input
-                                type="text"
-                                value={editValue}
-                                onChange={(e) => setEditValue(e.target.value)}
-                                className="w-full text-xs font-mono font-bold text-white px-3 py-1.5 rounded-lg border border-white/30 bg-[#0c0c0e] focus:outline-none focus:ring-1 focus:ring-white"
-                                autoFocus
-                              />
-                              <button
-                                onClick={() => handleSaveEdit(doc.type, fieldName)}
-                                className="p-1.5 rounded-lg bg-white text-stone-950 hover:bg-stone-200 transition-colors cursor-pointer shrink-0"
-                              >
-                                <Check className="w-3.5 h-3.5 stroke-[3]" />
-                              </button>
-                              <button
-                                onClick={handleCancelEdit}
-                                className="p-1.5 rounded-lg bg-white/[0.06] text-stone-400 hover:text-white transition-colors cursor-pointer shrink-0"
-                              >
-                                <X className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          ) : (
-                            <div className="flex items-center justify-between gap-2 bg-white/[0.02] hover:bg-white/[0.04] p-2 rounded-xl border border-white/6 transition-colors">
-                              <span className="font-mono font-semibold text-white truncate">
-                                {field.value || '—'}
-                              </span>
-                              <button
-                                onClick={() => handleStartEdit(doc.type, fieldName, field.value)}
-                                className="text-stone-400 hover:text-white p-1 rounded transition-colors cursor-pointer"
-                                title="Edit extracted value"
-                              >
-                                <Edit2 className="w-3.5 h-3.5" />
-                              </button>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Verification Status */}
-                        <div className="sm:w-28 shrink-0 sm:text-right">
-                          {field.isUserVerified ? (
-                            <span className="inline-flex items-center gap-1 text-[11px] font-mono font-semibold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/20">
-                              <Check className="w-3 h-3 stroke-[3]" />
-                              Verified
-                            </span>
-                          ) : (
-                            <button
-                              onClick={() => handleVerifyField(doc.type, fieldName)}
-                              className="text-[11px] font-mono text-stone-400 hover:text-white underline cursor-pointer"
-                            >
-                              Mark Valid
-                            </button>
-                          )}
-                        </div>
-
-                      </div>
-                    );
-                  })}
-                </div>
-
+                <span className="text-[11px] font-mono text-slate-500 font-medium">
+                  {doc.fileName}
+                </span>
               </div>
+
+              {/* Fields Table */}
+              <div className="divide-y divide-slate-100">
+                {fieldEntries.map(([fieldName, field]) => {
+                  if (!field) return null;
+                  const fieldKey = `${doc.type}_${fieldName}`;
+                  const isEditing = editingKey === fieldKey;
+                  const isLow = field.rawConfidence < 0.85 && !field.userEdited;
+
+                  return (
+                    <div
+                      key={fieldName}
+                      className="p-4 sm:px-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                    >
+                      {/* Label & Confidence */}
+                      <div className="sm:w-52 shrink-0">
+                        <span className="font-bold text-slate-800">
+                          {friendlyLabels[fieldName] || fieldName}
+                        </span>
+                        <div className="flex items-center gap-2 mt-0.5">
+                          <span className="text-[10px] font-mono text-slate-500 font-semibold">
+                            {(field.rawConfidence * 100).toFixed(0)}% confidence
+                          </span>
+                          {isLow && (
+                            <span className="text-[10px] font-mono font-bold text-amber-800 bg-amber-100 px-1.5 py-0.2 rounded border border-amber-300">
+                              Review Spelling
+                            </span>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Value / Quick Editor */}
+                      <div className="flex-1 min-w-0">
+                        {isEditing ? (
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="text"
+                              value={editValue}
+                              onChange={(e) => setEditValue(e.target.value)}
+                              className="w-full text-xs font-mono font-bold text-slate-950 px-3 py-1.5 rounded-lg border border-[#0c2340] bg-white focus:outline-none focus:ring-2 focus:ring-[#0c2340]/20"
+                              autoFocus
+                            />
+                            <button
+                              onClick={() => handleSaveEdit(doc.type, fieldName)}
+                              className="p-1.5 rounded-lg bg-[#0c2340] text-white hover:bg-[#16375f] transition-colors cursor-pointer shrink-0"
+                            >
+                              <Check className="w-3.5 h-3.5 stroke-[3]" />
+                            </button>
+                            <button
+                              onClick={handleCancelEdit}
+                              className="p-1.5 rounded-lg bg-slate-100 text-slate-600 hover:text-slate-900 transition-colors cursor-pointer shrink-0"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-between gap-2 bg-slate-50 p-2.5 rounded-xl border border-slate-200 transition-colors">
+                            <span className="font-mono font-bold text-slate-900 truncate">
+                              {field.value || '—'}
+                            </span>
+                            <button
+                              onClick={() => handleStartEdit(doc.type, fieldName, field.value)}
+                              className="text-slate-400 hover:text-slate-900 p-1 rounded transition-colors cursor-pointer"
+                              title="Edit extracted value"
+                            >
+                              <Edit2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Verification Status */}
+                      <div className="sm:w-28 shrink-0 sm:text-right">
+                        {field.isUserVerified ? (
+                          <span className="inline-flex items-center gap-1 text-[11px] font-mono font-bold text-emerald-800 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+                            <Check className="w-3 h-3 text-emerald-600 stroke-[3]" />
+                            Verified
+                          </span>
+                        ) : (
+                          <button
+                            onClick={() => handleVerifyField(doc.type, fieldName)}
+                            className="text-[11px] font-bold text-[#0c2340] hover:underline cursor-pointer"
+                          >
+                            Mark Valid
+                          </button>
+                        )}
+                      </div>
+
+                    </div>
+                  );
+                })}
+              </div>
+
             </div>
           );
         })}
       </div>
 
       {/* Footer Navigation */}
-      <div className="pt-4 flex items-center justify-between border-t border-white/8">
+      <div className="pt-4 flex items-center justify-between border-t border-slate-200">
         <button
           onClick={onPrevStep}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-medium text-stone-400 hover:text-white bg-white/[0.04] hover:bg-white/[0.08] border border-white/8 transition-all cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-bold text-slate-700 hover:text-slate-950 bg-white border border-slate-300 hover:bg-slate-50 transition-all cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Back to Proofs</span>
@@ -285,12 +280,10 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
 
         <button
           onClick={onNextStep}
-          className="group inline-flex items-center gap-3 pl-5 pr-2 py-2 rounded-full bg-white hover:bg-stone-200 text-stone-950 font-bold text-xs sm:text-sm shadow-xl transition-all cursor-pointer select-none active:scale-[0.98]"
+          className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-[#0c2340] hover:bg-[#16375f] text-white font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer select-none"
         >
-          <span>Calculate Diagnostics</span>
-          <div className="w-7 h-7 rounded-full bg-stone-950 text-white flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
-            <ArrowRight className="w-3.5 h-3.5" />
-          </div>
+          <span>Calculate Harmony Matrix</span>
+          <ArrowRight className="w-4 h-4 text-amber-300" />
         </button>
       </div>
 

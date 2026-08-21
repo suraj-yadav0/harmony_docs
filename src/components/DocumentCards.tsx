@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { DocumentRecord } from '@/types';
-import { CheckCircle2, Shield, QrCode, Building, Award } from 'lucide-react';
+import { CheckCircle2, Shield, QrCode, Building, Award, Loader2, Sparkles } from 'lucide-react';
 
 interface DocumentPreviewProps {
   document: DocumentRecord;
@@ -11,8 +11,24 @@ interface DocumentPreviewProps {
   onUploadClick?: () => void;
 }
 
+const ProcessingOverlay: React.FC = () => (
+  <div className="absolute inset-0 z-20 bg-slate-900/80 backdrop-blur-xs flex flex-col items-center justify-center p-4 text-center animate-fade-in text-white space-y-2">
+    <div className="p-3 rounded-2xl bg-white/10 border border-white/20">
+      <Loader2 className="w-6 h-6 text-amber-300 animate-spin" />
+    </div>
+    <div className="space-y-0.5">
+      <span className="text-xs font-bold font-mono tracking-wide flex items-center justify-center gap-1">
+        <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+        Running Forensic OCR...
+      </span>
+      <p className="text-[10px] text-slate-300">Extracting fields from document image</p>
+    </div>
+  </div>
+);
+
 export const AadhaarCardPreview: React.FC<DocumentPreviewProps> = ({ document, isActive, onSelect }) => {
   const isUploaded = document.isUploaded;
+  const isProcessing = document.isProcessing;
   const name = document.fields.name?.value || 'SURAJ KUMAR YADAV';
   const dob = document.fields.dob?.value || '15/08/2001';
   const gender = document.fields.gender?.value || 'MALE / पुरुष';
@@ -27,6 +43,8 @@ export const AadhaarCardPreview: React.FC<DocumentPreviewProps> = ({ document, i
           : 'border-slate-200/90 hover:border-slate-300 hover:shadow-xs'
       }`}
     >
+      {isProcessing && <ProcessingOverlay />}
+
       {/* Top Tricolor Ribbon */}
       <div className="h-1.5 w-full tricolor-ribbon" />
 
@@ -48,7 +66,11 @@ export const AadhaarCardPreview: React.FC<DocumentPreviewProps> = ({ document, i
           </div>
 
           <div className="shrink-0">
-            {isUploaded ? (
+            {isProcessing ? (
+              <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
+                <Loader2 className="w-3.5 h-3.5 text-amber-600 animate-spin" /> SCANNING
+              </span>
+            ) : isUploaded ? (
               <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-mono font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> ATTACHED
               </span>
@@ -117,6 +139,7 @@ export const AadhaarCardPreview: React.FC<DocumentPreviewProps> = ({ document, i
 
 export const PanCardPreview: React.FC<DocumentPreviewProps> = ({ document, isActive, onSelect }) => {
   const isUploaded = document.isUploaded;
+  const isProcessing = document.isProcessing;
   const name = document.fields.name?.value || 'SURAJ K YADAV';
   const fatherName = document.fields.fatherName?.value || 'SURESH KUMAR YADAV';
   const dob = document.fields.dob?.value || '15/08/2001';
@@ -131,6 +154,8 @@ export const PanCardPreview: React.FC<DocumentPreviewProps> = ({ document, isAct
           : 'border-slate-200/90 hover:border-slate-300 hover:shadow-xs'
       }`}
     >
+      {isProcessing && <ProcessingOverlay />}
+
       {/* Top Navy Ribbon */}
       <div className="h-1.5 w-full bg-gradient-to-r from-blue-700 via-indigo-600 to-sky-600" />
 
@@ -152,7 +177,11 @@ export const PanCardPreview: React.FC<DocumentPreviewProps> = ({ document, isAct
           </div>
 
           <div className="shrink-0">
-            {isUploaded ? (
+            {isProcessing ? (
+              <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
+                <Loader2 className="w-3.5 h-3.5 text-amber-600 animate-spin" /> SCANNING
+              </span>
+            ) : isUploaded ? (
               <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-mono font-bold text-blue-800 bg-blue-50 px-2.5 py-1 rounded-full border border-blue-200">
                 <CheckCircle2 className="w-3.5 h-3.5 text-blue-600" /> ATTACHED
               </span>
@@ -222,6 +251,7 @@ export const PanCardPreview: React.FC<DocumentPreviewProps> = ({ document, isAct
 
 export const MarksheetPreview: React.FC<DocumentPreviewProps> = ({ document, isActive, onSelect }) => {
   const isUploaded = document.isUploaded;
+  const isProcessing = document.isProcessing;
   const name = document.fields.name?.value || 'SURAJ KUMAR YADAV';
   const fatherName = document.fields.fatherName?.value || 'SURESH KUMAR YADAV';
   const dob = document.fields.dob?.value || '15/08/2001';
@@ -236,6 +266,8 @@ export const MarksheetPreview: React.FC<DocumentPreviewProps> = ({ document, isA
           : 'border-slate-200/90 hover:border-slate-300 hover:shadow-xs'
       }`}
     >
+      {isProcessing && <ProcessingOverlay />}
+
       <div className="h-1.5 w-full bg-gradient-to-r from-purple-600 via-indigo-600 to-pink-600" />
 
       <div className="p-5 sm:p-6 text-slate-800 space-y-4">
@@ -255,9 +287,17 @@ export const MarksheetPreview: React.FC<DocumentPreviewProps> = ({ document, isA
             </div>
           </div>
 
-          <span className="text-[10px] sm:text-xs font-mono font-bold text-purple-800 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200 shrink-0">
-            LEGAL ANCHOR (P0)
-          </span>
+          <div className="shrink-0">
+            {isProcessing ? (
+              <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
+                <Loader2 className="w-3.5 h-3.5 text-amber-600 animate-spin" /> SCANNING
+              </span>
+            ) : (
+              <span className="text-[10px] sm:text-xs font-mono font-bold text-purple-800 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-200">
+                LEGAL ANCHOR (P0)
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Details Table */}
@@ -291,6 +331,7 @@ export const MarksheetPreview: React.FC<DocumentPreviewProps> = ({ document, isA
 
 export const BankPassbookPreview: React.FC<DocumentPreviewProps> = ({ document, isActive, onSelect }) => {
   const isUploaded = document.isUploaded;
+  const isProcessing = document.isProcessing;
   const name = document.fields.name?.value || 'SURAJ KUMAR YADAV';
   const bankName = document.fields.bankName?.value || 'STATE BANK OF INDIA';
   const accountNo = document.fields.docNumberMasked?.value || 'XXXXXXXX4512';
@@ -304,6 +345,8 @@ export const BankPassbookPreview: React.FC<DocumentPreviewProps> = ({ document, 
           : 'border-slate-200/90 hover:border-slate-300 hover:shadow-xs'
       }`}
     >
+      {isProcessing && <ProcessingOverlay />}
+
       <div className="h-1.5 w-full bg-gradient-to-r from-teal-600 via-emerald-600 to-cyan-600" />
 
       <div className="p-5 sm:p-6 text-slate-800 space-y-4">
@@ -323,9 +366,17 @@ export const BankPassbookPreview: React.FC<DocumentPreviewProps> = ({ document, 
             </div>
           </div>
 
-          <span className="text-[10px] sm:text-xs font-mono font-bold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200 shrink-0">
-            RBI KYC SPEC
-          </span>
+          <div className="shrink-0">
+            {isProcessing ? (
+              <span className="inline-flex items-center gap-1.5 text-[10px] sm:text-xs font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">
+                <Loader2 className="w-3.5 h-3.5 text-amber-600 animate-spin" /> SCANNING
+              </span>
+            ) : (
+              <span className="text-[10px] sm:text-xs font-mono font-bold text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">
+                RBI KYC SPEC
+              </span>
+            )}
+          </div>
         </div>
 
         {/* Details */}

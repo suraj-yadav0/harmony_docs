@@ -9,6 +9,11 @@ import {
   Check,
   X,
   FileText,
+  Terminal,
+  ChevronDown,
+  ChevronUp,
+  AlertCircle,
+  Sparkles,
 } from 'lucide-react';
 import { DocumentRecord, DocumentType, ExtractedField } from '@/types';
 
@@ -28,6 +33,7 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
   const uploadedDocs = documents.filter((d) => d.isUploaded);
   const [editingKey, setEditingKey] = useState<string | null>(null);
   const [editValue, setEditValue] = useState<string>('');
+  const [expandedOcrDocId, setExpandedOcrDocId] = useState<string | null>(null);
 
   const handleStartEdit = (docType: DocumentType, fieldKey: string, currentValue: string) => {
     setEditingKey(`${docType}_${fieldKey}`);
@@ -149,6 +155,7 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
             keyof DocumentRecord['fields'],
             ExtractedField<string> | undefined
           ][];
+          const isRawOpen = expandedOcrDocId === doc.id;
 
           return (
             <div
@@ -156,20 +163,63 @@ export const Step3OCRVerification: React.FC<Step3OCRVerificationProps> = ({
               className="rounded-3xl bg-white border border-slate-200 shadow-xs overflow-hidden"
             >
               {/* Header */}
-              <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex items-center justify-between gap-3">
+              <div className="px-6 py-4 bg-slate-50 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                 <div className="flex items-center gap-3 min-w-0">
                   <div className="w-8 h-8 rounded-xl bg-slate-200 text-slate-700 flex items-center justify-center shrink-0">
                     <FileText className="w-4 h-4" />
                   </div>
-                  <h3 className="font-bold text-sm sm:text-base text-slate-900 truncate">
-                    {doc.title}
-                  </h3>
+                  <div>
+                    <h3 className="font-bold text-sm sm:text-base text-slate-900 truncate">
+                      {doc.title}
+                    </h3>
+                    <span className="text-[11px] font-mono text-slate-500 font-medium">
+                      {doc.fileName}
+                    </span>
+                  </div>
                 </div>
 
-                <span className="text-xs font-mono text-slate-500 font-medium truncate">
-                  {doc.fileName}
-                </span>
+                <div className="flex items-center gap-2">
+                  {doc.rawOcrText && (
+                    <button
+                      onClick={() => setExpandedOcrDocId(isRawOpen ? null : doc.id)}
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 text-xs font-bold font-mono transition-colors cursor-pointer"
+                    >
+                      <Terminal className="w-3.5 h-3.5 text-slate-600" />
+                      <span>{isRawOpen ? 'Hide Raw OCR' : 'Raw OCR Transcript'}</span>
+                      {isRawOpen ? (
+                        <ChevronUp className="w-3.5 h-3.5" />
+                      ) : (
+                        <ChevronDown className="w-3.5 h-3.5" />
+                      )}
+                    </button>
+                  )}
+                </div>
               </div>
+
+              {/* OCR Error Notice (if any) */}
+              {doc.ocrError && (
+                <div className="p-4 bg-amber-50/70 border-b border-amber-200 text-xs text-amber-900 flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-amber-700 shrink-0" />
+                  <span>
+                    OCR Notice: {doc.ocrError}. Review fields below to ensure exact alignment.
+                  </span>
+                </div>
+              )}
+
+              {/* Collapsible Raw OCR Transcript Inspector */}
+              {isRawOpen && doc.rawOcrText && (
+                <div className="p-5 bg-slate-900 text-slate-100 font-mono text-xs border-b border-slate-800 space-y-2">
+                  <div className="flex items-center justify-between text-slate-400 text-[11px]">
+                    <span className="flex items-center gap-1 font-bold text-amber-300">
+                      <Sparkles className="w-3 h-3" /> Raw OCR Stream from API
+                    </span>
+                    <span>{doc.rawOcrText.split('\n').length} lines extracted</span>
+                  </div>
+                  <pre className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 overflow-x-auto text-[11px] leading-relaxed text-emerald-400 whitespace-pre-wrap max-h-48 scrollbar-thin">
+                    {doc.rawOcrText}
+                  </pre>
+                </div>
+              )}
 
               {/* Fields Table */}
               <div className="divide-y divide-slate-100">

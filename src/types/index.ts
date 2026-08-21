@@ -38,6 +38,8 @@ export interface DocumentRecord {
   filePreviewUrl?: string;
   isUploaded: boolean;
   isProcessing?: boolean;
+  rawOcrText?: string;
+  ocrError?: string;
   fields: {
     name?: ExtractedField<string>;
     dob?: ExtractedField<string>;

@@ -130,21 +130,53 @@ export const Step2Ingestion: React.FC<Step2IngestionProps> = ({
     });
 
     try {
+      const ocrBaseUrl =
+        process.env.NEXT_PUBLIC_OCR_API_BASE_URL || 'https://ocr-api-ua2v.onrender.com';
+
       const formData = new FormData();
       formData.append('file', file, fileName);
       formData.append('docType', docType);
 
-      const res = await fetch('/api/ocr', {
-        method: 'POST',
-        body: formData,
-      });
+      // On GitHub Pages (static hosting), invoke the OCR backend API directly
+      const isLocalDev =
+        typeof window !== 'undefined' &&
+        (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+      const targetUrl =
+        isLocalDev && !process.env.NEXT_PUBLIC_OCR_API_BASE_URL
+          ? '/api/ocr'
+          : `${ocrBaseUrl.replace(/\/+$/, '')}/ocr`;
 
-      const data = await res.json();
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 90000);
 
-      if (!res.ok || !data.success) {
-        throw new Error(data.error || 'Failed to extract text from document.');
+      let res: Response;
+      try {
+        res = await fetch(targetUrl, {
+          method: 'POST',
+          body: formData,
+          signal: controller.signal,
+        });
+      } finally {
+        clearTimeout(timeoutId);
       }
 
+      if (!res.ok) {
+        const errText = await res.text();
+        let errMessage = `OCR service returned ${res.status}`;
+        try {
+          const parsed = JSON.parse(errText);
+          if (parsed.error || parsed.detail) {
+            errMessage =
+              parsed.error ||
+              (typeof parsed.detail === 'string' ? parsed.detail : JSON.stringify(parsed.detail));
+          }
+        } catch {
+          // ignore
+        }
+        throw new Error(errMessage);
+      }
+
+      const data = await res.json();
       const rawContent = data.content || '';
       const parsed = parseIndianDocument(rawContent, docType);
       const fallback = DOC_METADATA[docType]?.sampleData || {};
